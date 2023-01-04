@@ -1,0 +1,38 @@
+{{define "admin_nav"}}
+<header id="admin-header">
+  <nav>
+    <a href="/">
+      <h1>KORM</h1>
+    </a> 
+    
+    <ul>
+        <li>
+          <a {{if eq .Request.URL.Path "/" }}class="active"{{end}} href="/">Home</a>
+        </li>
+
+        <li>
+          <a {{if contains .Request.URL.Path "/admin" }}class="active"{{end}} href="/admin">Admin</a>
+        </li>
+
+        {{if .IsAuthenticated}}
+            {{if and .Logs .User.IsAdmin}}
+              <li>
+                <a {{if eq .Request.URL.Path "/logs" }}class="active"{{end}} href="/logs">Logs</a>
+              </li>
+            {{end}}
+
+            <li>
+              <a href="/admin/logout">Logout</a>
+            </li>
+            
+            {{if .User.Email}}
+              <li>
+                <span>Hello {{.User.Email}}</span>
+              </li>
+            {{end}}
+        {{end}}
+    </ul>
+  </nav>
+</header>
+{{end}}
+

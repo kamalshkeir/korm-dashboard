@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Website Admin Page">
+  {{template "admin_head"}}
+  <title>Admin</title>
+</head>
+
+<body>
+{{ template "admin_nav" . }}
+<div class="wrapper giffed">
+  <h1 class="dash-title">Dashboard</h1>
+  <div class="card-container">
+    {{range .tables}}
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h2 class="card-title">{{.}}</h2>
+          <a href="/admin/table/{{.}}" class="btn-left">All</a>
+          <button data-table="{{.}}" class="btn-right">Drop</button>
+        </div>
+      </div>
+    {{end}}
+  </div>
+  
+</div>
+
+
+ 
+
+<script src="/static/admin/admin_index.js"></script>
+{{template "pwa"}}
+</body>
+</html>
