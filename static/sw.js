@@ -13,6 +13,8 @@ const STATIC_FILES = [
     "/static/admin/single_model.js",
     "/static/admin/style.css",
     //tools
+    "/static/tools/Bus.js",
+    "/static/tools/ask.js",
     "/static/tools/getandpost.js",
     "/static/tools/notification.css",
     "/static/tools/notification.js",
