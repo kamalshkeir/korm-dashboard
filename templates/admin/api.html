@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Website Admin Page">
+  {{template "admin_head"}}
+  <link rel="stylesheet" href="/static/admin/jodit_editor.min.css">
+  <style> 
+  .model {
+        width: fit-content;
+        font-size: clamp(10px,4vw,50px);
+        text-transform: capitalize;
+        border-bottom: 10px solid whitesmoke;
+        margin-bottom: 30px;
+    }
+  .title-name,.table-link {
+    font-size: clamp(10px,3vw,30px);
+  }
+  .title-name {
+    text-transform: capitalize;
+  }
+  .table-link {
+    color: yellow;
+    margin-left: 20px;
+  }
+  .model-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 0px 30px;
+  }
+  .tag {
+    font-size: clamp(10px,3vw,20px);
+    color:var(--color);
+    background-color: var(--bg);
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .url {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  </style>
+  <title>Api</title>
+</head>
+<body>
+{{$req := .Request}}
+{{$tbMem := .tbMem}}
+<header id="admin-header">
+    <nav>
+    <a href="/">
+    <h1>API</h1>
+    </a> 
+    
+    <ul>
+        <li>
+        <a {{if eq .Request.URL.Path "/" }}class="active"{{end}} href="/">Home</a>
+        </li>
+
+        {{if .IsAuthenticated}}
+            <li>
+              <a {{if contains .Request.URL.Path "/admin" }}class="active"{{end}} href="/admin">Admin</a>
+            </li>
+            <li>
+            <a href="/admin/logout">Logout</a>
+            </li>
+            
+            {{if .User.Email}}
+            <li>
+                <span>Hello {{.User.Email}}</span>
+            </li>
+            {{end}}
+        {{end}}
+    </ul>
+</nav>
+</header>
+
+<div class="wrapper">
+    <h1 class="dash-title">API</h1>
+    {{range .tables}}
+    <div class="model-container">
+        <h1 class="model"><strong>{{.TableName}} </strong> </h1>
+        {{if .HaveMethod "get"}}
+        <div class="url">
+            <span class="tag" style="--color:white;--bg:green;">get</span>
+            <span class="title-name" style="color:rgb(2, 213, 2);">get all : </span> 
+            <a class="table-link" href="{{$req.URL.Path}}/{{.TableName}}">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}</a>   
+        </div>  
+        <div class="url">
+            <span class="tag" style="--color:white;--bg:green;">get</span>
+            <span class="title-name" style="color:rgb(2, 213, 2);">get one : </span> 
+            <a class="table-link" href="{{$req.URL.Path}}/{{.TableName}}/1">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}/:{{(index $tbMem .TableName).Pk}}</a>         
+        </div>
+        {{end}}  
+        {{if .HaveMethod "post"}}
+        <div class="url">
+            <span class="tag" style="--color:white;--bg:rgb(39, 44, 141);">post</span>
+            <span class="title-name" style="color:rgb(61, 69, 214);">create one : </span> 
+            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}</a>          
+        </div>
+        {{end}}
+        {{if or (.HaveMethod "put") (.HaveMethod "patch")}}
+        <div class="url">
+            {{if .HaveMethod "put"}}
+            <span class="tag" style="--color:white;--bg:rgb(117, 55, 103);">put</span>
+            {{end}}
+            {{if .HaveMethod "patch"}}
+            <span class="tag" style="--color:white;--bg:rgb(117, 55, 103);">patch</span>
+            {{end}}
+            <span class="title-name" style="color:rgb(198, 83, 171);">update one : </span> 
+            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}/:{{(index $tbMem .TableName).Pk}}</a>         
+        </div>
+        {{end}}
+        {{if .HaveMethod "delete"}}
+        <div class="url">
+            <span class="tag" style="--color:white;--bg:rgb(152, 33, 37);">delete</span>
+            <span class="title-name" style="color:rgb(152, 33, 37);">delete one : </span> 
+            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}/:{{(index $tbMem .TableName).Pk}}</a>          
+        </div>
+        {{end}}
+    </div>
+    {{end}}
+</div>
+
+
+<script src="/static/admin/jodit_editor.min.js"></script>
+{{template "pwa"}}
+</body>
+</html>

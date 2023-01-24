@@ -15,12 +15,6 @@
         </li>
 
         {{if .IsAuthenticated}}
-            {{if and .Logs .User.IsAdmin}}
-              <li>
-                <a {{if eq .Request.URL.Path "/logs" }}class="active"{{end}} href="/logs">Logs</a>
-              </li>
-            {{end}}
-
             <li>
               <a href="/admin/logout">Logout</a>
             </li>

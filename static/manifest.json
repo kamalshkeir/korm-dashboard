@@ -1,7 +1,7 @@
 {
-    "name":"KORM APP",
-    "short_name":"KORM APP",
-    "description":"KORM PWA",
+    "name":"Korm",
+    "short_name":"Korm pwa app",
+    "description":"Korm pwa app",
     "orientation": "portrait-primary",
     "lang":"en",
     "start_url":"/",
@@ -12,7 +12,8 @@
         {
             "src":"./static/admin/logo192.png",
             "sizes":"192x192",
-            "type":"image/png"
+            "type":"image/png",
+            "purpose": "any maskable"
         }
     ]
 }
