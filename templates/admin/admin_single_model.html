@@ -26,16 +26,16 @@
       
       {{if contains $key $pk  "password" "uuid" }}
       <input type="text" id="{{$key}}" name="{{$key}}" class='form-control' value="{{$value}}" disabled>
-      {{else if or (contains (index $columns $key) "time" "Time")}}
+      {{else if or (contains (index $columns $key) "time" "Time") (and (contains (index $dbcolumns $key) "text") (lt (len $value) 21) (eq (index $columns $key) "")) }}
       <input name="{{$key}}" id="{{$key}}" value="{{timeFormat $value}}" type="datetime-local" class='form-control input'>
       {{else if contains $key "image" "photo"}}
       <input name="{{$key}}" type="file" class='form-control input'>
       <img src="{{$value}}" alt="image" width="100px" style="border-radius: 20px;">
-      {{else if (eq (index $columns $key) "bool")}}
+      {{else if eq (index $columns $key) "bool"}}
       <div class="form-check form-switch">
         <input style="height: 30px;" type="checkbox" name="{{$key}}" id="{{$key}}" class="form-check-input input" {{if $value}}checked{{end}}>
       </div>
-      {{else if contains (index $dbcolumns $key) "text"}}
+      {{else if and (contains (index $dbcolumns $key) "text") }}
       <textarea class="editor" data-key="{{$key}}" data-val="{{$value}}"></textarea>
       {{else}}
         <input type="text" id="{{$key}}" name="{{$key}}" class='form-control input' value="{{$value}}">
