@@ -50,6 +50,11 @@
 <body>
 {{$req := .Request}}
 {{$tbMem := .tbMem}}
+{{$tbMethods := .tbMethods}}
+{{$EndWithSlash := not (call .EndWithSlash $req.URL.Path) }}
+{{$slash := ""}}
+{{if $EndWithSlash}}{{$slash = "/"}}{{end}}
+
 <header id="admin-header">
     <nav>
     <a href="/">
@@ -82,44 +87,47 @@
 <div class="wrapper">
     <h1 class="dash-title">API</h1>
     {{range .tables}}
+    {{$tbName := .}}
     <div class="model-container">
-        <h1 class="model"><strong>{{.TableName}} </strong> </h1>
-        {{if .HaveMethod "get"}}
+        <h1 class="model"><strong>{{$tbName}} </strong> </h1>
+        {{if contains (index $tbMethods $tbName) "get"}}
         <div class="url">
             <span class="tag" style="--color:white;--bg:green;">get</span>
             <span class="title-name" style="color:rgb(2, 213, 2);">get all : </span> 
-            <a class="table-link" href="{{$req.URL.Path}}/{{.TableName}}">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}</a>   
+            <a class="table-link" href="{{$req.URL.Path}}{{$slash}}{{$tbName}}">
+              {{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}
+            </a>   
         </div>  
         <div class="url">
             <span class="tag" style="--color:white;--bg:green;">get</span>
             <span class="title-name" style="color:rgb(2, 213, 2);">get one : </span> 
-            <a class="table-link" href="{{$req.URL.Path}}/{{.TableName}}/1">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}/:{{(index $tbMem .TableName).Pk}}</a>         
+            <a class="table-link" href="{{$req.URL.Path}}{{$slash}}{{$tbName}}/1">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $tbMem $tbName).Pk}}</a>         
         </div>
         {{end}}  
-        {{if .HaveMethod "post"}}
+        {{if contains (index $tbMethods $tbName) "post"}}
         <div class="url">
             <span class="tag" style="--color:white;--bg:rgb(39, 44, 141);">post</span>
             <span class="title-name" style="color:rgb(61, 69, 214);">create one : </span> 
-            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}</a>          
+            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}</a>          
         </div>
         {{end}}
-        {{if or (.HaveMethod "put") (.HaveMethod "patch")}}
+        {{if or (contains (index $tbMethods $tbName) "put") (contains (index $tbMethods $tbName) "patch")}}
         <div class="url">
-            {{if .HaveMethod "put"}}
+            {{if contains (index $tbMethods $tbName) "put"}}
             <span class="tag" style="--color:white;--bg:rgb(117, 55, 103);">put</span>
             {{end}}
-            {{if .HaveMethod "patch"}}
+            {{if contains (index $tbMethods $tbName) "patch"}}
             <span class="tag" style="--color:white;--bg:rgb(117, 55, 103);">patch</span>
             {{end}}
             <span class="title-name" style="color:rgb(198, 83, 171);">update one : </span> 
-            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}/:{{(index $tbMem .TableName).Pk}}</a>         
+            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $tbMem $tbName).Pk}}</a>         
         </div>
         {{end}}
-        {{if .HaveMethod "delete"}}
+        {{if contains (index $tbMethods $tbName) "delete"}}
         <div class="url">
             <span class="tag" style="--color:white;--bg:rgb(152, 33, 37);">delete</span>
             <span class="title-name" style="color:rgb(152, 33, 37);">delete one : </span> 
-            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}/{{.TableName}}/:{{(index $tbMem .TableName).Pk}}</a>          
+            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $tbMem $tbName).Pk}}</a>          
         </div>
         {{end}}
     </div>
