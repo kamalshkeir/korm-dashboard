@@ -32,6 +32,7 @@ class Bus {
         $this.conn.onmessage = (e) =>  {
             let obj = JSON.parse(e.data);
             $this.subscription={};
+            $this.OnData(obj);
             if (obj.topic !== undefined) {
                 if($this.TopicHandlers[obj.topic] !== undefined) {
                     let subs;
@@ -52,7 +53,6 @@ class Bus {
                     $this.TopicHandlers[obj.topic+":"+obj.name](obj,subs);          
                     return;
                 } else {
-                    $this.OnData(obj);
                     console.log("topicHandler not found for topic:",obj.topic,obj.name,$this.TopicHandlers);
                 }
             } else if (obj.name !== undefined) {
@@ -71,7 +71,6 @@ class Bus {
                     $this.TopicHandlers[obj.topic+":"+obj.name](obj,subs)               
                     return;
                 } else {
-                    $this.OnData(obj);
                     console.log("topicHandler not found for name:",obj.name);
                 }
             } 
@@ -103,9 +102,9 @@ class Bus {
                 "name":name,
                 "id":this.id
             }));
-            let subs = new busSubscription(this,topic,name);
             this.TopicHandlers[topic]=handler
             this.TopicHandlers[topic+":"+name]=handler
+            let subs = new busSubscription(this,topic,name);
             return subs;
         }
         this.conn.send(JSON.stringify({
