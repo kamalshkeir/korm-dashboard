@@ -72,7 +72,7 @@
             {{$value := index $row $key}}  
               {{if eq $key $pk }}
                 <td>
-                  <p style="overflow-wrap:break-word;max-width: 20vw;">
+                  <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                     <a href="/admin/get/{{$.model_name}}/{{$value}}">{{$value}}</a>
                   </p>
                 </td>
@@ -93,7 +93,7 @@
                 </td>
               {{else}}
                   <td>
-                    <p style="overflow-wrap:break-word;max-width: 20vw;">
+                    <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                       {{truncate $value 50}}
                     </p>
                   </td>
@@ -129,7 +129,7 @@
       {{end}}
 
       {{if eq $col $pk}}
-      {{else if or (contains $type "time" "timestamp") (and (contains (index $dbcolumns $col) "text") (eq (index $columns $col) ""))}}
+      {{else if contains (index $columns $col) "time" "timestamp" "Time"}}
       <input name="{{$col}}" id="{{$col}}" type="datetime-local" class='form-control input'>
       {{else if contains $col "uuid"}}
       <input name="{{$col}}" id="{{$col}}" type="text" class='form-control input' value="{{generateUUID}}" disabled>

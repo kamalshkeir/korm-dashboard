@@ -25,7 +25,7 @@ let handlePostSearch = (data) => {
           switch (key) {
             case "id":
               td.innerHTML = `
-              <p style="overflow-wrap:break-word;max-width: 20vw;">
+              <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                     <a href="/admin/get/${modelName}/${row[key]}">${row[key]}</a>
               </p>
               `;
@@ -55,11 +55,17 @@ let handlePostSearch = (data) => {
                     break;
                   } else if ((row[key] == 0 || row[key] == 1) && (key.includes("_") || key.includes("id"))) {
                     td.innerHTML = `
-                      <p style="overflow-wrap:break-word;max-width: 20vw;">
+                      <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                         ${row[key]}
                       </p>
                     `;
-                  } 
+                  } else {
+                    td.innerHTML = `
+                      <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
+                          ${row[key]}
+                      </p>
+                    `;
+                  }
                   break;
                 case "boolean":
                   if (row[key]) {
@@ -85,11 +91,11 @@ let handlePostSearch = (data) => {
                     }
                     
                     td.innerHTML = `
-                    <p style="overflow-wrap:break-word;max-width: 20vw;">
+                    <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                         ${span.textContent}
                     </p>
                   `;
-                  } else if ((row[key] == '0' || row[key] == '1') || key.includes("is"))  {
+                  } else if ((row[key] == '0' || row[key] == '1'))  {
                     let checked="";
                     if (row[key] == '1') {
                       checked="checked"
@@ -99,11 +105,17 @@ let handlePostSearch = (data) => {
                       <input id="check-${i}" name="check-${i}" type="checkbox" class="checkbox" ${checked} disabled>
                       <label style="display: none;" for="check-${i}" >Checkbox</label> 
                     `;
-                  } 
+                  } else {
+                    td.innerHTML = `
+                      <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
+                          ${row[key]}
+                      </p>
+                    `;
+                  }
                   break;
                 default:
                   td.innerHTML = `
-                    <p style="overflow-wrap:break-word;max-width: 20vw;">
+                    <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                         ${row[key]}
                     </p>
                   `;
@@ -204,6 +216,12 @@ form.addEventListener("submit",(e) => {
       if (input.files) {
         data.append(input.getAttribute("name"),input.files[0]);
       }
+    } else if(input.type == "datetime-local") {
+      val=Date.parse(input.value).toString().substring(0,10);
+      if (isNaN(val)) {
+        val=Date.now().toString().substring(0,10);
+      }
+      data.append(input.getAttribute("name"),val);
     } else {
       let val = input.value;
       let name = input.getAttribute("name");
@@ -213,7 +231,7 @@ form.addEventListener("submit",(e) => {
         } else {
           val=0
         }
-      } 
+      }
       data.append(name,val)
     }
   });
@@ -315,7 +333,7 @@ let handlepostScroll = (data) => {
           switch (key) {
             case "id":
               td.innerHTML = `
-              <p style="overflow-wrap:break-word;max-width: 20vw;">
+              <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                     <a href="/admin/get/${modelName}/${row[key]}">${row[key]}</a>
               </p>
               `;
@@ -345,7 +363,7 @@ let handlepostScroll = (data) => {
                     break;
                   } else if ((row[key] == 0 || row[key] == 1) && (key.includes("_") || key.includes("id"))) {
                     td.innerHTML = `
-                      <p style="overflow-wrap:break-word;max-width: 20vw;">
+                      <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                         ${row[key]}
                       </p>
                     `;
@@ -375,7 +393,7 @@ let handlepostScroll = (data) => {
                     }
                     
                     td.innerHTML = `
-                    <p style="overflow-wrap:break-word;max-width: 20vw;">
+                    <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                         ${span.textContent}
                     </p>
                   `;
@@ -393,7 +411,7 @@ let handlepostScroll = (data) => {
                   break;
                 default:
                   td.innerHTML = `
-                    <p style="overflow-wrap:break-word;max-width: 20vw;">
+                    <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                         ${row[key]}
                     </p>
                   `;

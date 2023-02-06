@@ -40,12 +40,16 @@ inputs.forEach((input) => {
             }
         } else if (input.type == "checkbox") {
             if (input.checked) {
-                data.append(input.getAttribute("name"),1)
+                data.append(input.getAttribute("name"),1);
             } else {
-                data.append(input.getAttribute("name"),0)
+                data.append(input.getAttribute("name"),0);
             }
-        } else {
-            data.append(input.getAttribute("name"),input.value)
+        } else if (input.type == "datetime-local") {
+            let val = Date.parse(input.value).toString().substring(0,10);
+            if (isNaN(val)) {
+                val=Date.now().toString().substring(0,10);
+            }
+            data.append(input.getAttribute("name"),val);
         }
     })
 })

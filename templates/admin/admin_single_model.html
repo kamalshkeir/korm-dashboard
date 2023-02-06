@@ -27,7 +27,7 @@
       {{if contains $key $pk  "password" "uuid" }}
       <input type="text" id="{{$key}}" name="{{$key}}" class='form-control' value="{{$value}}" disabled>
       {{else if or (contains (index $columns $key) "time" "Time") (and (contains (index $dbcolumns $key) "text") (lt (len $value) 21) (eq (index $columns $key) "")) }}
-      <input name="{{$key}}" id="{{$key}}" value="{{timeFormat $value}}" type="datetime-local" class='form-control input'>
+      <input name="{{$key}}" id="{{$key}}" value="{{jsTime $value}}" type="datetime-local" class='form-control input'>
       {{else if contains $key "image" "photo"}}
       <input name="{{$key}}" type="file" class='form-control input'>
       <img src="{{$value}}" alt="image" width="100px" style="border-radius: 20px;">
