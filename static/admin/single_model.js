@@ -50,6 +50,8 @@ inputs.forEach((input) => {
                 val=Date.now().toString().substring(0,10);
             }
             data.append(input.getAttribute("name"),val);
+        } else {
+            data.append(input.getAttribute("name"),input.value);
         }
     })
 })
