@@ -131,9 +131,9 @@
       {{if eq $col $pk}}
       {{else if contains (index $columns $col) "time" "timestamp" "Time"}}
       <input name="{{$col}}" id="{{$col}}" type="datetime-local" class='form-control input'>
-      {{else if contains $col "uuid"}}
-      <input name="{{$col}}" id="{{$col}}" type="text" class='form-control input' value="{{generateUUID}}" disabled>
-      {{else if contains $col "password" "pass"}}
+      {{else if eq $col "uuid"}}
+      <input name="{{$col}}" id="{{$col}}" type="text" class='form-control input' value="{{generateUUID}}">
+      {{else if eq $col "password"}}
       <input name="{{$col}}" id="{{$col}}" type="password" class='form-control input'>
       {{else if contains (index $dbcolumns $col) "text"}}
       <textarea class="editor" data-key="{{$col}}"></textarea>

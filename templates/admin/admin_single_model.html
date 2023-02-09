@@ -24,9 +24,9 @@
     <div class="form-group">
       <label for="{{$key}}">{{$key}}:</label><div style="margin: 10px 0 10px 0;"></div>
       
-      {{if contains $key $pk  "password" "uuid" }}
+      {{if or (eq $key $pk) (eq $key "password")}}
       <input type="text" id="{{$key}}" name="{{$key}}" class='form-control' value="{{$value}}" disabled>
-      {{else if or (contains (index $columns $key) "time" "Time") (and (contains (index $dbcolumns $key) "text") (lt (len $value) 21) (eq (index $columns $key) "")) }}
+      {{else if contains (index $columns $key) "time" "Time"}}
       <input name="{{$key}}" id="{{$key}}" value="{{jsTime $value}}" type="datetime-local" class='form-control input'>
       {{else if contains $key "image" "photo"}}
       <input name="{{$key}}" type="file" class='form-control input'>
