@@ -23,7 +23,7 @@ let handlePostSearch = (data) => {
           let content;
           let td = document.createElement("td");
           switch (key) {
-            case "id":
+            case pk:
               td.innerHTML = `
               <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                     <a href="/admin/get/${modelName}/${row[key]}">${row[key]}</a>
@@ -38,7 +38,7 @@ let handlePostSearch = (data) => {
             default:
               switch (typeof(row[key])) {
                 case "number":
-                  if ((!["id","Id","ID"].includes(key)) && (row[key] == 0 || row[key] == 1) && (!key.includes("_") || !key.includes("id"))) {
+                  if ((key !== pk) && (row[key] == 0 || row[key] == 1)) {
                     if (row[key] == 1) {
                       i++;
                       td.innerHTML = `
@@ -53,12 +53,6 @@ let handlePostSearch = (data) => {
                       `;
                     } 
                     break;
-                  } else if ((row[key] == 0 || row[key] == 1) && (key.includes("_") || key.includes("id"))) {
-                    td.innerHTML = `
-                      <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
-                        ${row[key]}
-                      </p>
-                    `;
                   } else {
                     td.innerHTML = `
                       <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
@@ -295,13 +289,13 @@ let handlepostDelete = (data) => {
 }
 
 let deleteFunc = (btn) => {
-  let id = btn.dataset.id;
+  let idd = btn.dataset.id;
   ask(`Are your sure u want to delete ?`).then(confirmed => {
     if (confirmed == true) {
       postData(`/admin/delete/row`,{
             "mission":"delete_row",
             "model_name":modelName,
-            "id":id,
+            "id":idd,
       },handlepostDelete);
     } else {
       new Notification().show("<b>delete was canceled</b>","info");
@@ -320,7 +314,6 @@ deletebtns.forEach((btn) => {
 /* Infinite Scroll */
 let lastRow = document.querySelector(".box-inf-scroll");
 let i = 10;
-
 let handlepostScroll = (data) => {
   if (data.rows != null) {
     if (data.rows.length > 0) {
@@ -331,7 +324,7 @@ let handlepostScroll = (data) => {
           let content;
           let td = document.createElement("td");
           switch (key) {
-            case "id":
+            case pk:
               td.innerHTML = `
               <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                     <a href="/admin/get/${modelName}/${row[key]}">${row[key]}</a>
@@ -346,7 +339,7 @@ let handlepostScroll = (data) => {
             default:
               switch (typeof(row[key])) {
                 case "number":
-                  if ((!["id","Id","ID"].includes(key)) && (row[key] == 0 || row[key] == 1) && (!key.includes("_") || !key.includes("id"))) {
+                  if ((key !== pk) && (row[key] == 0 || row[key] == 1) ) {
                     if (row[key] == 1) {
                       i++;
                       td.innerHTML = `
@@ -361,7 +354,7 @@ let handlepostScroll = (data) => {
                       `;
                     } 
                     break;
-                  } else if ((row[key] == 0 || row[key] == 1) && (key.includes("_") || key.includes("id"))) {
+                  } else {
                     td.innerHTML = `
                       <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
                         ${row[key]}
