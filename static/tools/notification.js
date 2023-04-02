@@ -18,6 +18,7 @@ class Notification{
     setTimeout(() => {
       this.notification.classList.remove('active');
       this.notification.textContent = '';
+      this.notification.remove();
     },6100);
   }
 }
