@@ -1,32 +1,48 @@
 {{define "admin_nav"}}
-<header id="admin-header">
+<header class="nav">
+  <a href="/" class="logo">
+    <h1>Korm</h1>
+  </a>
+  <input type="checkbox" name="nav_check" id="nav_check" hidden>
   <nav>
-    <a href="/">
-      <h1>KORM</h1>
-    </a> 
-    
+    <a href="/" class="logo">
+      <h1>Korm</h1>
+    </a>
     <ul>
+      <li>
+        <a {{if eq .Request.URL.Path "/" }}class="active" {{end}} href="/">Home</a>
+      </li>
+
+      <li>
+        <a {{if contains .Request.URL.Path "/admin" }}class="active" {{end}} href="/admin">Admin</a>
+      </li>
+      {{if .IsAuthenticated}}
         <li>
-          <a {{if eq .Request.URL.Path "/" }}class="active"{{end}} href="/">Home</a>
+          <a href="/admin/logout">Logout</a>
         </li>
 
+        {{if .User.Email}}
         <li>
-          <a {{if contains .Request.URL.Path "/admin" }}class="active"{{end}} href="/admin">Admin</a>
+          <span>{{.User.Email}}</span>
         </li>
-
-        {{if .IsAuthenticated}}
-            <li>
-              <a href="/admin/logout">Logout</a>
-            </li>
-            
-            {{if .User.Email}}
-              <li>
-                <span>Hello {{.User.Email}}</span>
-              </li>
-            {{end}}
         {{end}}
+      {{end}}
     </ul>
   </nav>
+  <label for="nav_check" class="burger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </label>
 </header>
+<script>
+  let checkbox = document.querySelector("#nav_check");
+  let httml = document.querySelector("html");
+  let header = document.querySelector("header.nav");
+  document.addEventListener("click", function (e) {
+    if (checkbox.checked && (e.target === document.body || e.target == httml || !header.contains(e.target))) {
+      checkbox.checked = false;
+    }
+  })
+</script>
 {{end}}
-

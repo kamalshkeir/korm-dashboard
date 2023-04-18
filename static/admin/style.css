@@ -1,20 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;1,600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Nunito', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 400;
 }
 
 body {
-    width: 100%;
+    width: auto;
     min-height: 100vh;
     height: 100vh;
     overflow-x: hidden;
     background-color: #01020A;
     color: #fefefe;
+    font-size: 16px;
 }
 
 
@@ -41,53 +44,145 @@ td p {
 	border-radius: 10px;
 }
 
-#admin-header {
-    position: sticky;
+/* Navbar */
+header {
+    position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 9999;
-}
-
-#admin-header nav{
-    width: 100%;
-    height: 100%;
-    background: #0c141c;
-    padding: 17px;
+    left: 10%;
+    right: 10%;
+    height: 70px;
+    background-color: #0f0212;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
+    padding: 0 40px;
+    border-radius: 0 0 10px 10px;
+    margin: 0 auto;
+    z-index: 999999;
 }
 
-#admin-header nav h1{
-    font-size: 1.2em;
-    white-space: nowrap;
+a.logo {
+    width: 120px;
     color: white;
-    padding-left: 30px;
+    /* margin-top: 8px; */
 }
 
-#admin-header nav ul{
-    list-style: none;
-    color: white;
-    width: calc(100% - 100px);
-    height: 100%;
+nav .logo {
+    display: none;
+}
+
+nav ul {
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    list-style: none;
 }
 
-#admin-header nav ul li a,
-#admin-header nav ul li span{
+nav ul li span {
+    color: #675cff;
+    display: block;
+    margin: 0 2px;
+    padding: 8px 18px;
+    cursor: default;
+    user-select: none;
+    font-weight: 600;
+}
+
+nav ul li a {
+    color: #fafafa;
+    display: block;
+    margin: 0 2px;
+    padding: 8px 18px;
+    transition: .2s;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+nav ul li a:hover {
+    background: rgba(97, 97, 101, 0.2);
+}
+
+nav ul li a.active {
+    background: #675cff;
     color: white;
-    font-weight: bold;
 }
 
-#admin-header nav h1:hover,
-#admin-header nav ul li a:hover,
-#admin-header nav ul li a.active{
-    color: #3866ff;
+.burger {
+    display: none;
+    height: fit-content;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 5px;
+    transition: .2s;
 }
+
+.burger div {
+    width: 30px;
+    height: 2px;
+    margin: 6px 0;
+    background-color: white;
+}
+
+.logo h1 {
+    font-size: 30px;
+}
+
+.logo:hover h1 {
+    color: #786ffb;
+}
+
+@media only screen and (max-width:1100px) {
+    header {
+        left: 5%;
+        right: 5%;
+        padding: 0 20px;
+    }
+
+    nav {
+        position: fixed;
+        left: -150%;
+        top: 0;
+        z-index: 999;
+        width: 250px;
+        height: 100vh;
+        background-color: #0f0212;
+        transition: .2s;
+        box-shadow: 2px 0 20px 0 rgba(0, 0, 0, .05);
+    }
+
+    #nav_check:checked~nav {
+        left: 0;
+    }
+
+    #nav_check:checked~.burger {
+        outline: 2px solid white;
+    }
+
+    nav .logo {
+        display: block;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        margin-left: 30px;
+    }
+
+    nav ul li a {
+        margin-bottom: 5px;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        padding: 0 10px;
+        gap: 10px;
+    }
+
+    .burger {
+        display: block;
+    }
+}
+
+/* nav end */
 
 .wrapper {
     width: 100%;
@@ -95,6 +190,7 @@ td p {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 100px;
 }
 
 .login-wrapper {
@@ -328,7 +424,7 @@ form .submit-btn:hover {
 
 /* ALL MODELS ADMIN */
 .table-container {
-    width: 80%;
+    width: 88%;
     margin: 0 auto;
     overflow:auto;
 }
