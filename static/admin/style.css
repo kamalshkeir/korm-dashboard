@@ -83,7 +83,7 @@ nav ul li span {
     padding: 8px 18px;
     cursor: default;
     user-select: none;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 nav ul li a {
@@ -93,7 +93,7 @@ nav ul li a {
     padding: 8px 18px;
     transition: .2s;
     border-radius: 30px;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 nav ul li a:hover {
@@ -272,12 +272,12 @@ form .input-wrapper input{
     border: none;
     background: transparent;
     font-size: 1.2em;
-    font-weight: 600;
+    font-weight: 400;
     color: #fefefe;
 }
 form .input-wrapper input::placeholder{
     color: #3D3B3B;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 form .submit-btn {
@@ -503,7 +503,7 @@ form .form-group {
 form .form-group label {
     width: 100%;
     font-size: 1.4em;
-    font-weight: 600;
+    font-weight: 400;
     display: block;
 }
 
@@ -516,7 +516,7 @@ form .form-group textarea {
     padding: 10px;
     background: #0c141c;
     font-size: 1.2em;
-    font-weight: 600;
+    font-weight: 400;
     color: #fefefe;
 }
 
@@ -527,7 +527,7 @@ input[type="text"]:disabled {
 form .form-group input::placeholder,
 form .form-group textarea::placeholder{
     color: #797373;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 
