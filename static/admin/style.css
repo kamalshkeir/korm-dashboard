@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Quicksand', sans-serif;
     letter-spacing: 1px;
     font-weight: 400;
 }
@@ -77,13 +77,13 @@ nav ul {
 }
 
 nav ul li span {
-    color: #675cff;
+    color: white;
     display: block;
     margin: 0 2px;
     padding: 8px 18px;
     cursor: default;
     user-select: none;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 nav ul li a {
@@ -93,7 +93,7 @@ nav ul li a {
     padding: 8px 18px;
     transition: .2s;
     border-radius: 30px;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 nav ul li a:hover {
@@ -123,6 +123,7 @@ nav ul li a.active {
 
 .logo h1 {
     font-size: 30px;
+    font-weight: 600;
 }
 
 .logo:hover h1 {
