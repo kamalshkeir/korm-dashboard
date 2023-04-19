@@ -1,8 +1,8 @@
 let deletebtns = document.querySelectorAll(".deleteBtn");
 let closeBtn = document.querySelector(".btn-close");
-let createBtn = document.querySelector("#btn-create");
-let exportBtn = document.querySelector("#btn-export");
-let importBtn = document.querySelector("#btn-import");
+let createBtns = document.querySelectorAll(".btn-create");
+let exportBtns = document.querySelectorAll(".btn-export");
+let importBtns = document.querySelectorAll(".btn-import");
 let importInput = document.querySelector("input#import");
 let modal = document.querySelector(".modal");
 let modelName = document.getElementById("model-name").dataset.model;
@@ -165,10 +165,12 @@ document.querySelectorAll("textarea.editor").forEach((ed) => {
   });
 })
 
-createBtn.addEventListener("click",(e) => {
-  e.preventDefault();
-  modal.classList.toggle('active');
-})
+createBtns.forEach(btn => {
+  btn.addEventListener("click",(e) => {
+    e.preventDefault();
+    modal.classList.toggle('active');
+  })
+}) 
 
 closeBtn.addEventListener("click",(e) => {
   e.preventDefault();
@@ -241,20 +243,22 @@ form.addEventListener("submit",(e) => {
 
 
 /* IMPORT EXPORT */
-exportBtn.addEventListener("click",(e) => {
-  ask(`Do you confirm export ${modelName} ?`).then(confirmed => {
-    if (confirmed) {
-      e.preventDefault();
-      window.location.href = `/admin/export/${modelName}`;
-    } else {
-      new Notification().show("Exportation annuler.");
-    }
+exportBtns.forEach(btn => {
+  btn.addEventListener("click",(e) => {
+    ask(`Do you confirm export ${modelName} ?`).then(confirmed => {
+      if (confirmed) {
+        e.preventDefault();
+        window.location.href = `/admin/export/${modelName}`;
+      } 
+    })
   })
 })
 
-importBtn.addEventListener("click",(e) => {
-  e.preventDefault();
-  importInput.click();
+importBtns.forEach(btn => {
+  btn.addEventListener("click",(e) => {
+    e.preventDefault();
+    importInput.click();
+  })
 })
 
 let callbackImport = (data) => {
@@ -297,8 +301,6 @@ let deleteFunc = (btn) => {
             "model_name":modelName,
             "id":idd,
       },handlepostDelete);
-    } else {
-      new Notification().show("<b>delete was canceled</b>","info");
     } 
   })
 }

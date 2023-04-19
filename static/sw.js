@@ -12,6 +12,7 @@ const STATIC_FILES = [
     "/static/admin/logo192.png",
     "/static/admin/single_model.js",
     "/static/admin/style.css",
+    "/static/admin/table.css",
     //tools
     "/static/tools/Bus.js",
     "/static/tools/ask.js",
