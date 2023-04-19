@@ -197,6 +197,7 @@ thead th span.icon-arrow {
     fill: white;
     cursor: pointer;
     margin: 0;
+    overflow: visible;
     transition: fill .2s ease-in-out;
 }
 
