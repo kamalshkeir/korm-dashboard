@@ -450,8 +450,14 @@ form .form-group label {
     display: block;
 }
 
+form .form-group select {
+    appearance: none;
+    cursor: pointer;
+}
+
 form .form-group input,
-form .form-group textarea {
+form .form-group textarea, 
+form .form-group select {
     width: 100%;
     outline: none;
     border: 3px solid #0d2b3b;

@@ -11,9 +11,11 @@
 </head>
 <body>
 {{ template "admin_nav" . }}
+{{$data := .}}
 
 {{$columns := .columns}}
 {{$dbcolumns := .dbcolumns}}
+{{$fkeys := .fkeys}}
 
 {{$pk := .pk}}
 
@@ -24,8 +26,19 @@
     <div class="form-group">
       <label for="{{$key}}">{{$key}}:</label><div style="margin: 10px 0 10px 0;"></div>
       
-      {{if or (eq $key $pk) (eq $key "password")}}
-      <input type="text" id="{{$key}}" name="{{$key}}" class='form-control' value="{{$value}}" disabled>
+      {{if or (eq $key $pk) (and (eq $key "password") (eq $data.model_name "users"))}}
+      <input type="text" id="{{$key}}" name="{{$key}}" class='form-control input' value="{{$value}}" disabled>
+      {{else if index $fkeys $key }}
+        <select name="{{$key}}" id="{{$key}}" class='form-control input'>
+         <option value="">-- Choose --</option>
+         {{range index $fkeys $key}}
+            {{if eq $value .}}
+            <option value="{{.}}" selected>{{.}}</option>
+            {{else}}
+            <option value="{{.}}">{{.}}</option>
+            {{end}}
+         {{end}}
+        </select>
       {{else if contains (index $columns $key) "time" "Time"}}
       <input name="{{$key}}" id="{{$key}}" value="{{jsTime $value}}" type="datetime-local" class='form-control input'>
       {{else if contains $key "image" "photo"}}
