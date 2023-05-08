@@ -1,5 +1,5 @@
 class Bus {
-    constructor(addr,path="/ws/bus",secure=false) {
+    constructor(addr=window.location.host,path="/ws/bus",secure=false) {
         this.scheme="ws://";
         if (secure) {
             this.scheme="wss://"
