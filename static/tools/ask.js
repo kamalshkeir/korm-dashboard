@@ -111,6 +111,9 @@ class ask extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode:"open"});
+        let style = document.createElement("style");
+        style.innerHTML=ask.css;
+        this.shadowRoot.append(style);
         document.body.appendChild(this);
     }
 
@@ -147,10 +150,7 @@ class ask extends HTMLElement {
             <button class="butn confirm">Confirm</button>
         </div>
         `;
-
-        let style = document.createElement("style");
-        style.innerHTML=Ask.css;
-        this.shadowRoot.append(style,this.modal);
+        this.shadowRoot.append(this.modal);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
