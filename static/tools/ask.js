@@ -1,4 +1,4 @@
-class Ask extends HTMLElement {
+class ask extends HTMLElement {
     static css = `
         *, :after, :before {
             margin: 0;
@@ -159,12 +159,12 @@ class Ask extends HTMLElement {
 
 }
 
-customElements.define("ui-prompt",Ask);
+customElements.define("k-ask",ask);
 
 
-async function ask(message) {
+async function Ask(message) {
     return new Promise((resolve) => {
-        let a = new Ask();
+        let a = new ask();
         a.message=message;
         a.show()
         a.modal.querySelector(".footer .cancel").addEventListener("click",(e) => {

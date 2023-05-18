@@ -197,7 +197,7 @@ let handlePostSearch = (data) => {
     }
   } else {
     if (data.error) {
-      new Notification().show(data.error, "error");
+      Notify(data.error, "error");
     }
   }
 }
@@ -261,7 +261,7 @@ let handlepostCreate = (data) => {
     modal.classList.remove('active');
     window.location.reload();
   } else if (data.error) {
-    new Notification().show(data.error, "error");
+    Notify(data.error, "error");
   }
 }
 
@@ -313,7 +313,7 @@ exportBtns.forEach(btn => {
     if (mytype == undefined) {
       mytype=e.target.closest("svg").dataset.type;
     }
-    ask(`Do you confirm export ${modelName} ?`).then(confirmed => {
+    Ask(`Do you confirm export ${modelName} ?`).then(confirmed => {
       if (confirmed) {
         if (mytype === "json") {
           window.location.href = `/admin/export/${modelName}`;
@@ -337,9 +337,9 @@ importBtns.forEach(btn => {
 let callbackImport = (data) => {
   if (data) {
     if (data.success) {
-      new Notification().show(data.success, "success");
+      Notify(data.success, "success");
     } else if (data.error) {
-      new Notification().show(data.error, "error");
+      Notify(data.error, "error");
     }
   }
 }
@@ -358,16 +358,16 @@ importInput.addEventListener("change", () => {
 /* DELETE ROW */
 let handlepostDelete = (data) => {
   if (data.success) {
-    new Notification().show(data.success, "success");
+    Notify(data.success, "success");
     document.querySelector(`.deleteBtn[data-id='${data.id}']`).closest('tr').remove();
   } else if (data.error) {
-    new Notification().show(data.error, "error");
+    Notify(data.error, "error");
   }
 }
 
 let deleteFunc = (btn) => {
   let idd = btn.dataset.id;
-  ask(`Are your sure u want to delete ?`).then(confirmed => {
+  Ask(`Are your sure u want to delete ?`).then(confirmed => {
     if (confirmed == true) {
       postData(`/admin/delete/row`, {
         "mission": "delete_row",

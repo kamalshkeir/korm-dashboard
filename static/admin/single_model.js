@@ -23,9 +23,9 @@ var data = new FormData();
 // update form handler
 let callbackPost = (d) => {
     if(d.success) {
-        new Notification().show(d.success,"success");
+        Notify(d.success, "success");
     }else if (d.error) {
-        new Notification().show(d.error,"error");
+        Notify(d.error, "error");
     }
     data = new FormData();
 }
