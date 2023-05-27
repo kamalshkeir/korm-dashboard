@@ -1,3 +1,4 @@
+// Bus Class
 class Bus {
     constructor(addr=window.location.host,path="/ws/bus",secure=false) {
         this.scheme="ws://";

@@ -1,3 +1,5 @@
+// notify class
+// usage Notify("message","success")
 class notify extends HTMLElement {
     static css = `.notice{
       width: auto;
