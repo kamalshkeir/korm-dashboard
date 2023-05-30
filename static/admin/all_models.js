@@ -535,7 +535,7 @@ const observer = new IntersectionObserver(entries => {
     let head = {
       "Content-type": "application/json; charset=UTF-8"
     }
-    if (csrftoken !== undefined) {
+    if (csrftoken) {
       head['X-CSRF-Token'] = csrftoken;
     }
 
