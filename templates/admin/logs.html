@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{template "admin_head"}}
+    <style>
+        .container {
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        p {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            color: black;
+            font-weight: bold;
+        }
+        a {
+            text-decoration: none;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+        a:hover {
+            color: black;
+        }
+    </style>
+    <title>Logs</title>
+</head>
+<body>
+    {{ template "admin_nav" . }}
+    <a href="/admin">
+        <h1 style="text-align: center;font-size: 5vw;margin-top: 80px;">Logs</h1>
+    </a>
+    <div class="container">
+        {{range .logs}}
+            {{if startWith . "[success]"}}
+            <p style="background: rgb(33, 169, 33);color: white;">{{.}}</p>
+            {{else if startWith . "[error]"}}
+            <p style="background: rgb(205, 8, 70);color: white;">{{.}}</p>
+            {{else if startWith . "[info]"}}
+            <p style="background: rgb(32, 32, 174);color: white;">{{.}}</p>
+            {{else if startWith . "[debug]"}}
+            <p style="background: rgb(143, 32, 174);color: white;">{{.}}</p>
+            {{else if startWith . "[warning]"}}
+            <p style="background: rgb(184, 195, 29);color: rgb(0, 0, 0);">{{.}}</p>
+            {{else}}
+            <p>{{.}}</p>
+            {{end}}
+        {{end}}
+    </div>
+
+<script src="/static/tools/bus.js"></script>
+<script>
+    let container = document.querySelector(".container");   
+    let bus = new Bus();
+    bus.OnOpen = () => {
+        bus.Subscribe("klog:logs",(data,subs) => {
+            let p = document.createElement("p");
+            if (data.log) {
+                p.textContent=data.log;
+                if (data.log.startsWith("[SUCCESS]")) {
+                    p.style.background = "rgb(33, 169, 33)";
+                    p.style.color = "white";
+                    container.prepend(p);
+                } else if (data.log.startsWith("[ERROR]")) {
+                    p.style.background = "rgb(205, 8, 70)";
+                    p.style.color = "white";
+                    container.prepend(p);
+                } else if (data.log.startsWith("[INFO]")) {
+                    p.style.background = "rgb(32, 32, 174)";
+                    p.style.color = "white";
+                    container.prepend(p);
+                } else if (data.log.startsWith("[DEBUG]")) {
+                    p.style.background = "rgb(143, 32, 174)";
+                    p.style.color = "white";
+                    container.prepend(p);
+                } else if (data.log.startsWith("[WARNING]")) {
+                    p.style.background = "rgb(184, 195, 29)";
+                    p.style.color = "white";
+                    container.prepend(p);
+                } else {
+                    container.prepend(p);
+                }
+            }
+        })
+    }  
+</script>
+</body>
+</html>

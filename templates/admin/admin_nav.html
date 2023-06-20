@@ -14,9 +14,12 @@
       </li>
 
       <li>
-        <a {{if contains .Request.URL.Path "/admin" }}class="active" {{end}} href="/admin">Admin</a>
+        <a {{if eq .Request.URL.Path "/admin" }}class="active" {{end}} href="/admin">Admin</a>
       </li>
       {{if .IsAuthenticated}}
+        <li>
+          <a {{if eq .Request.URL.Path "/admin/logs" }}class="active" {{end}} href="/admin/logs">Logs</a>
+        </li>
         <li>
           <a href="/admin/logout">Logout</a>
         </li>
