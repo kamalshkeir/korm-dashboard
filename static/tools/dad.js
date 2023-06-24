@@ -26,12 +26,25 @@ class Dad extends HTMLElement {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            gap:10px;
             width: 384px;
             max-width: 100%;
-            height: 160px;
             border: 4px dashed grey;
             border-radius: 15px;
             overflow:hidden;
+        }
+        #btnf {
+            padding: 7px 10px;
+            border-radius: 5px;
+            background: none;
+            border: 2px solid black;
+            outline:none;
+            cursor:pointer;
+        }
+        #btnf:hover {
+            background: black;
+            outline:none;
+            color:white;
         }
         
         .droparea svg {
@@ -137,7 +150,9 @@ class Dad extends HTMLElement {
                 <path fill-rule="nonzero" d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z"/>
             </g>
         </svg>
+        <input id="inf" type="file" multiple style="display:none">
         <p class="msg">${this.message}</p>
+        <button id="btnf">Upload</button>
         <p><small class="size">${this.size}</small></p>
         `;
         ['dragenter', 'dragover'].forEach(evtName => {
@@ -163,6 +178,20 @@ class Dad extends HTMLElement {
             }
         });
         this.shadowRoot.append(this.droparea);
+        let btnUpload = this.droparea.querySelector("#btnf");
+        let inUpload = this.droparea.querySelector("#inf");
+        inUpload.addEventListener("change",(e) => {
+            e.preventDefault();
+            const fileList = inUpload.files;
+            const fileArray = [...fileList];
+            if (this.callback) {
+                this.callback(fileArray);
+            } 
+        })
+        btnUpload.addEventListener("click",(e) => {
+            e.preventDefault();
+            inUpload.click();
+        })
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
