@@ -17,7 +17,6 @@ class Dad extends HTMLElement {
         :host {
             font-size: 18px;
             font-family: Arial, Helvetica, sans-serif;
-            color: #333;
             line-height: 1.5rem;
         }
         .droparea {
@@ -34,16 +33,18 @@ class Dad extends HTMLElement {
             overflow:hidden;
         }
         #btnf {
-            padding: 7px 10px;
+            padding: 8px 20px;
             border-radius: 5px;
             background: none;
-            border: 2px solid black;
+            border: 2px dashed grey;
             outline:none;
+            color:inherit;
             cursor:pointer;
         }
         #btnf:hover {
             background: black;
             outline:none;
+            border: 2px dashed white;
             color:white;
         }
         
@@ -76,7 +77,7 @@ class Dad extends HTMLElement {
 
     constructor(selector=".k-dad") {
         super(selector);
-        this.message = "Drop your Files!";
+        this.message = "Drag and Drop";
         this.size = "Max File Size 25Mb";
         this.attachShadow({ mode: "open" });
         let style = document.createElement("style");
@@ -152,8 +153,9 @@ class Dad extends HTMLElement {
         </svg>
         <input id="inf" type="file" multiple style="display:none">
         <p class="msg">${this.message}</p>
+        <p style="font-weight:600;font-size:1em">OR</p>
         <button id="btnf">Upload</button>
-        <p><small class="size">${this.size}</small></p>
+        <p style="margin-bottom:10px"><small class="size">${this.size}</small></p>
         `;
         ['dragenter', 'dragover'].forEach(evtName => {
             this.droparea.addEventListener(evtName, (e) => {
@@ -184,6 +186,7 @@ class Dad extends HTMLElement {
             e.preventDefault();
             const fileList = inUpload.files;
             const fileArray = [...fileList];
+            this.droparea.classList.add("green-border");
             if (this.callback) {
                 this.callback(fileArray);
             } 
