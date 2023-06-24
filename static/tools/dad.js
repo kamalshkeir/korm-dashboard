@@ -186,7 +186,7 @@ class Dad extends HTMLElement {
             e.preventDefault();
             const fileList = inUpload.files;
             const fileArray = [...fileList];
-            this.droparea.classList.add("green-border");
+            btnUpload.style.border="2px dashed green"
             if (this.callback) {
                 this.callback(fileArray);
             } 
