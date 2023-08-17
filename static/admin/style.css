@@ -588,9 +588,9 @@ form .form-group textarea::placeholder {
 }
 
 .checkbox {
-    width: 30%;
-    height: initial;
     min-height: 30px;
+    min-width: 30px;
+    height: initial;
 }
 
 
