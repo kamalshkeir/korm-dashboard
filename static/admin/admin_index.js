@@ -12,7 +12,7 @@ btns.forEach((btn) => {
         e.preventDefault();
         Ask(`Are your sure u want to drop this table ?`).then(confirmed => {
             if (confirmed) {
-                postData("/admin/drop/table",{
+                postData(admin_path+"/drop/table",{
                     "table":btn.dataset.table
                 },callbackPostIndex);
             }

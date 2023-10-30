@@ -12,7 +12,7 @@
 <body>
 {{ template "admin_nav" . }}
 {{$data := .}}
-
+{{$admin_path := .admin_path}}
 {{$columns := .columns}}
 {{$dbcolumns := .dbcolumns}}
 {{$fkeys := .fkeys}}
@@ -20,7 +20,7 @@
 {{$pk := .pk}}
 
 <div class="wrapper">
-  <a href="/admin/table/{{.model_name}}"><h1>{{.model_name}}</h1></a>
+  <a href="{{$admin_path}}/table/{{.model_name}}"><h1>{{.model_name}}</h1></a>
   <form id="myform" data-model="{{.model_name}}" data-id="{{.id}}" autocomplete="off">
     {{range $key,$value := .model}}
     <div class="form-group">
@@ -61,7 +61,9 @@
 <div style="margin: 10px 0 10px 0;"></div>
 
 
-
+<script>
+  var admin_path = "{{$admin_path}}";
+</script>
 <script src="/static/admin/jodit_editor.min.js"></script>
 <script src="/static/admin/single_model.js"></script>
 {{template "pwa"}}

@@ -50,6 +50,7 @@
 <body>
 {{$req := .Request}}
 {{$tbMem := .tbMem}}
+{{$admin_path := .admin_path}}
 {{$tbMethods := .tbMethods}}
 {{$EndWithSlash := not (call .EndWithSlash $req.URL.Path) }}
 {{$slash := ""}}
@@ -68,10 +69,10 @@
 
         {{if .IsAuthenticated}}
             <li>
-              <a {{if contains .Request.URL.Path "/admin" }}class="active"{{end}} href="/admin">Admin</a>
+              <a {{if contains .Request.URL.Path $admin_path }}class="active"{{end}} href="{{$admin_path}}">Admin</a>
             </li>
             <li>
-            <a href="/admin/logout">Logout</a>
+            <a href="{{$admin_path}}/logout">Logout</a>
             </li>
             
             {{if .User.Email}}

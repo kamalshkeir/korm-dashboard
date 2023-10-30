@@ -9,6 +9,7 @@
   <title>Admin</title>
 </head>
 
+{{$admin_path := .admin_path}}
 <body>
 {{ template "admin_nav" . }}
 <div class="wrapper giffed">
@@ -18,7 +19,7 @@
       <div class="card" style="width: 18rem;">
         <div class="card-body">
           <h2 class="card-title">{{.}}</h2>
-          <a href="/admin/table/{{.}}" class="btn-left">All</a>
+          <a href="{{$admin_path}}/table/{{.}}" class="btn-left">All</a>
           <button data-table="{{.}}" class="btn-right">Drop</button>
         </div>
       </div>
@@ -29,7 +30,9 @@
 
 
  
-
+<script>
+  let admin_path="{{$admin_path}}";
+</script>
 <script src="/static/admin/admin_index.js"></script>
 {{template "pwa"}}
 </body>

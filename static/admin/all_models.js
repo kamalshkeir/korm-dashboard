@@ -63,7 +63,7 @@ let handlePostSearch = (data) => {
             case pk:
               td.innerHTML = `
               <p style="overflow-wrap:break-word;max-width: 20vw;margin:0 auto;">
-                    <a href="/admin/get/${modelName}/${row[key]}">${row[key]}</a>
+                    <a href="${admin_path}/get/${modelName}/${row[key]}">${row[key]}</a>
               </p>
               `;
               break;
@@ -213,7 +213,7 @@ searchForm.addEventListener("submit", (e) => {
   if (orderBy !== "") {
     d.orderby = orderBy;
   }
-  postData(`/admin/table/${modelName}/search`, d, handlePostSearch);
+  postData(`${admin_path}/table/${modelName}/search`, d, handlePostSearch);
 })
 
 
@@ -301,7 +301,7 @@ form.addEventListener("submit", (e) => {
     })
   }
   data.append("table", modelName)
-  postFormData(`/admin/create/row`, data, handlepostCreate);
+  postFormData(`${admin_path}/create/row`, data, handlepostCreate);
 })
 
 
@@ -316,9 +316,9 @@ exportBtns.forEach(btn => {
     Ask(`Do you confirm export ${modelName} ?`).then(confirmed => {
       if (confirmed) {
         if (mytype === "json") {
-          window.location.href = `/admin/export/${modelName}`;
+          window.location.href = `${admin_path}/export/${modelName}`;
         } else if (mytype === "csv") {
-          window.location.href = `/admin/export/${modelName}/csv`;
+          window.location.href = `${admin_path}/export/${modelName}/csv`;
         } else {
           console.log(mytype)
         }
@@ -350,7 +350,7 @@ importInput.addEventListener("change", () => {
     data.append("table", modelName);
   }
   //post file to server
-  postFormData("/admin/import", data, callbackImport);
+  postFormData(admin_path+"/import", data, callbackImport);
 })
 
 
@@ -369,7 +369,7 @@ let deleteFunc = (btn) => {
   let idd = btn.dataset.id;
   Ask(`Are your sure u want to delete ?`).then(confirmed => {
     if (confirmed == true) {
-      postData(`/admin/delete/row`, {
+      postData(admin_path+`/delete/row`, {
         "mission": "delete_row",
         "model_name": modelName,
         "id": idd,
@@ -402,7 +402,7 @@ let handlepostScroll = (data) => {
             case pk:
               td.innerHTML = `
               <p>
-                    <a href="/admin/get/${modelName}/${row[key]}">${row[key]}</a>
+                    <a href="${admin_path}/get/${modelName}/${row[key]}">${row[key]}</a>
               </p>
               `;
               break;
@@ -539,7 +539,7 @@ const observer = new IntersectionObserver(entries => {
       head['X-CSRF-Token'] = csrftoken;
     }
 
-    fetch(`/admin/table/${modelName}/search`, {
+    fetch(`${admin_path}/table/${modelName}/search`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: head

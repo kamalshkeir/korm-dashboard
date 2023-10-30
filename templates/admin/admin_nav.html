@@ -14,14 +14,14 @@
       </li>
 
       <li>
-        <a {{if eq .Request.URL.Path "/admin" }}class="active" {{end}} href="/admin">Admin</a>
+        <a {{if eq .Request.URL.Path .admin_path }}class="active" {{end}} href="{{.admin_path}}">Admin</a>
       </li>
       {{if .IsAuthenticated}}
         <li>
-          <a {{if eq .Request.URL.Path "/admin/logs" }}class="active" {{end}} href="/admin/logs">Logs</a>
+          <a {{if eq .Request.URL.Path (print .admin_path "/logs") }}class="active" {{end}} href="{{.admin_path}}/logs">Logs</a>
         </li>
         <li>
-          <a href="/admin/logout">Logout</a>
+          <a href="{{.admin_path}}/logout">Logout</a>
         </li>
 
         {{if .User.Email}}

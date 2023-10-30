@@ -66,7 +66,7 @@ form.addEventListener("submit",(e) => {
     }
     data.append("table",model_name);
     data.append("row_id",model_id);
-    postFormData(`/admin/update/row`,data,callbackPost);
+    postFormData(`${admin_path}/update/row`,data,callbackPost);
 })
 
 
