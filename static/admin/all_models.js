@@ -11,7 +11,9 @@ let html = document.querySelector("html");
 let searchForm = document.querySelector("form.search-input");
 let page = 1;
 
-
+function isFloat(n){
+  return Number(n) === n && n % 1 !== 0;
+}
 
 function switchTime(name) {
   let tds = document.querySelectorAll(`td.timeFormat-${name}`);
@@ -91,7 +93,7 @@ let handlePostSearch = (data) => {
                     }
                     break;
                   } else {
-                    if (new Date(row[key]) !== undefined) {
+                    if (new Date(row[key]) !== undefined && !isFloat(row[key])) {
                       td.classList.add(`timeFormat-${key}`);
                       if (localTime) {
                         td.dataset.prev = row[key];
@@ -430,7 +432,7 @@ let handlepostScroll = (data) => {
                     }
                     break;
                   } else if (!isNaN(row[key])) {
-                    if (new Date(row[key]) !== undefined) {
+                    if (new Date(row[key]) !== undefined && !isFloat(row[key])) {
                       td.classList.add(`timeFormat-${key}`);
                       if (localTime) {
                         td.dataset.prev = row[key];
