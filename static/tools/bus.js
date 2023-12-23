@@ -11,6 +11,7 @@ class Bus {
         this.autorestart=false;
         this.restartevery=10;
         this.OnOpen=() =>{};
+        this.OnClose=() =>{};
         this.OnData=(data) =>{};
         this.id=this.makeid(8);
         this.conn=this.connect(this.path,this.callback);
@@ -86,6 +87,7 @@ class Bus {
         };
 
         $this.conn.onclose =  (e) => {
+            $this.OnClose();
             if ($this.autorestart) {
                 console.log('Socket is closed. Reconnect will be attempted in '+this.restartevery+' second.', e.reason);
                 setTimeout( function() {
