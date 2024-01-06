@@ -60,9 +60,11 @@
 
 <script src="/static/tools/bus.js"></script>
 <script>
-    let secure = parseFloat("{{.secure}}");
+    let secure = "{{.secure}}" == "true";
     let container = document.querySelector(".container");   
-    let bus = new Bus(secure=secure);
+    let bus = new Bus({
+        secure:secure
+    });
     bus.OnOpen = () => {
         bus.Subscribe("klog:logs",(data,subs) => {
             let p = document.createElement("p");
