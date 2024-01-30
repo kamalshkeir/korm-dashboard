@@ -11,7 +11,7 @@ let html = document.querySelector("html");
 let searchForm = document.querySelector("form.search-input");
 let page = 1;
 
-function isFloat(n){
+function isFloat(n) {
   return Number(n) === n && n % 1 !== 0;
 }
 
@@ -34,7 +34,7 @@ function switchTime(name) {
 
 let allTimes = document.querySelectorAll(`td[class*="timeFormat-"]`);
 allTimes.forEach(t => {
-  t.dataset.prev=t.textContent;
+  t.dataset.prev = t.textContent;
   let date = new Date(t.textContent * 1000);
   t.textContent = date.toLocaleString("fr-FR");
 })
@@ -44,7 +44,7 @@ let inputsTime = document.querySelectorAll("th.timeFormat");
 inputsTime.forEach((inputt) => {
   inputt.addEventListener("click", (e) => {
     e.preventDefault();
-    localTime=!localTime;
+    localTime = !localTime;
     let name = e.target.dataset.name;
     switchTime(name);
   })
@@ -59,6 +59,7 @@ let handlePostSearch = (data) => {
         let tr = document.createElement("tr");
         data.cols.forEach((key) => {
           key = snakeCase(key)
+          let typ = data.types[key];
           let content;
           let td = document.createElement("td");
           switch (key) {
@@ -77,7 +78,7 @@ let handlePostSearch = (data) => {
             default:
               switch (typeof (row[key])) {
                 case "number":
-                  if ((key !== pk) && (row[key] == 0 || row[key] == 1)) {
+                  if ((key !== pk) && typ.includes("bool")) {
                     if (row[key] == 1) {
                       i++;
                       td.innerHTML = `
@@ -92,14 +93,18 @@ let handlePostSearch = (data) => {
                       `;
                     }
                     break;
-                  } else {
-                    if (new Date(row[key]) !== undefined && !isFloat(row[key])) {
-                      td.classList.add(`timeFormat-${key}`);
-                      if (localTime) {
-                        td.dataset.prev = row[key];
-                        let date = new Date(row[key] * 1000);
-                        row[key] = date.toLocaleString("fr-FR");
-                      }
+                  } else if (typ.includes("int")) {
+                    td.innerHTML = `
+                      <p>
+                          ${row[key]}
+                      </p>
+                    `;
+                  } else if (typ.includes("time")) {
+                    td.classList.add(`timeFormat-${key}`);
+                    if (localTime) {
+                      td.dataset.prev = row[key];
+                      let date = new Date(row[key] * 1000);
+                      row[key] = date.toLocaleString("fr-FR");
                     }
                     td.innerHTML = `
                       <p>
@@ -313,7 +318,7 @@ exportBtns.forEach(btn => {
     e.preventDefault();
     let mytype = e.target.dataset.type;
     if (mytype == undefined) {
-      mytype=e.target.closest("svg").dataset.type;
+      mytype = e.target.closest("svg").dataset.type;
     }
     Ask(`Do you confirm export ${modelName} ?`).then(confirmed => {
       if (confirmed) {
@@ -352,7 +357,7 @@ importInput.addEventListener("change", () => {
     data.append("table", modelName);
   }
   //post file to server
-  postFormData(admin_path+"/import", data, callbackImport);
+  postFormData(admin_path + "/import", data, callbackImport);
 })
 
 
@@ -371,7 +376,7 @@ let deleteFunc = (btn) => {
   let idd = btn.dataset.id;
   Ask(`Are your sure u want to delete ?`).then(confirmed => {
     if (confirmed == true) {
-      postData(admin_path+`/delete/row`, {
+      postData(admin_path + `/delete/row`, {
         "mission": "delete_row",
         "model_name": modelName,
         "id": idd,
@@ -397,7 +402,8 @@ let handlepostScroll = (data) => {
       data.rows.forEach((row) => {
         let tr = document.createElement("tr");
         data.cols.forEach(key => {
-          key = snakeCase(key)
+          key = snakeCase(key);
+          let typ = data.types[key];
           let content;
           let td = document.createElement("td");
           switch (key) {
@@ -416,7 +422,7 @@ let handlepostScroll = (data) => {
             default:
               switch (typeof (row[key])) {
                 case "number":
-                  if ((key !== pk) && (row[key] == 0 || row[key] == 1)) {
+                  if ((key !== pk) && typ.includes("bool")) {
                     if (row[key] == 1) {
                       i++;
                       td.innerHTML = `
@@ -431,14 +437,18 @@ let handlepostScroll = (data) => {
                       `;
                     }
                     break;
-                  } else if (!isNaN(row[key])) {
-                    if (new Date(row[key]) !== undefined && !isFloat(row[key])) {
-                      td.classList.add(`timeFormat-${key}`);
-                      if (localTime) {
-                        td.dataset.prev = row[key];
-                        let date = new Date(row[key] * 1000);
-                        row[key] = date.toLocaleString("fr-FR");
-                      }
+                  } else if (typ.includes("int")) {
+                    td.innerHTML = `
+                      <p>
+                          ${row[key]}
+                      </p>
+                    `;
+                  } else if (typ.includes("time")) {
+                    td.classList.add(`timeFormat-${key}`);
+                    if (localTime) {
+                      td.dataset.prev = row[key];
+                      let date = new Date(row[key] * 1000);
+                      row[key] = date.toLocaleString("fr-FR");
                     }
                     td.innerHTML = `
                       <p>
