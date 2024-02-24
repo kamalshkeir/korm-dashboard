@@ -1,7 +1,7 @@
 {{define "admin_head"}}
-<link rel="icon" type="image/png" href="/static/admin/logo192.png"/>
+<link rel="icon" type="image/png" href="{{.}}/admin/logo192.png"/>
 <!-- LOCAL -->
-<link rel="stylesheet" href="/static/admin/style.css">
+<link rel="stylesheet" href="{{.}}/admin/style.css">
 
-{{template "admin_tools"}}
+{{template "admin_tools" .}}
 {{end}}

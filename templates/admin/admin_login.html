@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{{$static := .static_url}}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Login Page">
-    {{template "admin_head"}}
+    {{template "admin_head" $static}}
     <title>Admin Login</title>
 </head>
 
@@ -44,5 +44,5 @@
     <script>
         var admin_path = "{{$admin_path}}";
     </script>
-    <script src="/static/admin/login.js"></script>
+    <script src="{{$static}}/admin/login.js"></script>
     {{template "pwa"}}

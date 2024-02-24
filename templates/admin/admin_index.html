@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+{{$static := .static_url}}
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Website Admin Page">
-  {{template "admin_head"}}
+  {{template "admin_head" $static}}
   <title>Admin</title>
 </head>
 
@@ -33,7 +34,7 @@
 <script>
   let admin_path="{{$admin_path}}";
 </script>
-<script src="/static/admin/admin_index.js"></script>
+<script src="{{$static}}/admin/admin_index.js"></script>
 {{template "pwa"}}
 </body>
 </html>
