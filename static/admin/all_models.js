@@ -111,6 +111,12 @@ let handlePostSearch = (data) => {
                           ${row[key]}
                       </p>
                     `;
+                  } else {
+                    td.innerHTML = `
+                      <p>
+                          ${row[key]}
+                      </p>
+                    `;
                   }
                   break;
                 case "boolean":
@@ -450,6 +456,12 @@ let handlepostScroll = (data) => {
                       let date = new Date(row[key] * 1000);
                       row[key] = date.toLocaleString("fr-FR");
                     }
+                    td.innerHTML = `
+                      <p>
+                        ${row[key]}
+                      </p>
+                    `;
+                  } else {
                     td.innerHTML = `
                       <p>
                         ${row[key]}
