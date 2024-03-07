@@ -1,11 +1,15 @@
 class Bus {
     /**
      * Bus can be initialized without any param 'let bus = new Bus()'
-     * @param {string} addr "default: window.location.host"
-     * @param {string} path "default: /ws/bus"
-     * @param {boolean} secure "default: false"
+     * @param {object} options "default: {}"
+     * @param {string} options.addr "default: window.location.host"
+     * @param {string} options.path "default: /ws/bus"
+     * @param {boolean} options.secure "default: false"
      */
     constructor(options) {
+        if (options === undefined) {
+            options = {}
+        }
         this.addr=options.addr || window.location.host;
         this.path=options.path || "/ws/bus";
         this.scheme=options.scheme || "ws://";
