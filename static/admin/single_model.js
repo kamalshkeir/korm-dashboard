@@ -36,22 +36,22 @@ inputs.forEach((input) => {
         e.preventDefault();
         if (input.type == "file") {
             if (input.files) {
-                data.append(input.getAttribute("name"),input.files[0]);
+                data.set(input.getAttribute("name"),input.files[0]);
             }
         } else if (input.type == "checkbox") {
             if (input.checked) {
-                data.append(input.getAttribute("name"),1);
+                data.set(input.getAttribute("name"),1);
             } else {
-                data.append(input.getAttribute("name"),0);
+                data.set(input.getAttribute("name"),0);
             }
         } else if (input.type == "datetime-local") {
             let val = Date.parse(input.value).toString().substring(0,10);
             if (isNaN(val)) {
                 val=Date.now().toString().substring(0,10);
             }
-            data.append(input.getAttribute("name"),val);
+            data.set(input.getAttribute("name"),val);
         } else {
-            data.append(input.getAttribute("name"),input.value);
+            data.set(input.getAttribute("name"),input.value);
         }
     })
 })
@@ -61,11 +61,11 @@ form.addEventListener("submit",(e) => {
     if (document.querySelectorAll("textarea.editor").length > 0) {
         document.querySelectorAll("textarea.editor").forEach(ed => {
             let name = ed.dataset.key;
-            data.append(name,ed.value);
+            data.set(name,ed.value);
         })
     }
-    data.append("table",model_name);
-    data.append("row_id",model_id);
+    data.set("table",model_name);
+    data.set("row_id",model_id);
     postFormData(`${admin_path}/update/row`,data,callbackPost);
 })
 

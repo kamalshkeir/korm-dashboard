@@ -286,14 +286,14 @@ form.addEventListener("submit", (e) => {
   inputs.forEach(input => {
     if (input.type == "file") {
       if (input.files) {
-        data.append(input.getAttribute("name"), input.files[0]);
+        data.set(input.getAttribute("name"), input.files[0]);
       }
     } else if (input.type == "datetime-local") {
       val = Date.parse(input.value).toString().substring(0, 10);
       if (isNaN(val)) {
         val = Date.now().toString().substring(0, 10);
       }
-      data.append(input.getAttribute("name"), val);
+      data.set(input.getAttribute("name"), val);
     } else {
       let val = input.value;
       let name = input.getAttribute("name");
@@ -304,16 +304,16 @@ form.addEventListener("submit", (e) => {
           val = 0
         }
       }
-      data.append(name, val)
+      data.set(name, val)
     }
   });
   if (document.querySelectorAll("textarea.editor").length > 0) {
     document.querySelectorAll("textarea.editor").forEach(ed => {
       let name = ed.dataset.key;
-      data.append(name, ed.value);
+      data.set(name, ed.value);
     })
   }
-  data.append("table", modelName)
+  data.set("table", modelName)
   postFormData(`${admin_path}/create/row`, data, handlepostCreate);
 })
 
@@ -359,8 +359,8 @@ let callbackImport = (data) => {
 importInput.addEventListener("change", () => {
   let data = new FormData();
   if (importInput.files) {
-    data.append("thefile", importInput.files[0]);
-    data.append("table", modelName);
+    data.set("thefile", importInput.files[0]);
+    data.set("table", modelName);
   }
   //post file to server
   postFormData(admin_path + "/import", data, callbackImport);
