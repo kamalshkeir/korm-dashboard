@@ -56,12 +56,10 @@ class Bus {
                     "from": $this.id
                 })
             }
-            if ($this.OnId !== undefined && obj.to_id === $this.id) {
+            if (obj.to_id !== undefined && obj.to_id === $this.id && $this.OnId !== undefined) {
                 delete obj.to_id
                 $this.OnId(obj);
             }
-            
-            
             if (obj.topic !== undefined) {
                 // on publish
                 if ($this.TopicHandlers[obj.topic] !== undefined) {
