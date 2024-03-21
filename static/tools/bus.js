@@ -50,25 +50,25 @@ class Bus {
             let obj = JSON.parse(e.data);
             $this.subscription = {};
             $this.OnDataWs(obj, $this.conn);
-            if ($this.OnId !== undefined && obj.to_id === $this.id) {
-                delete obj.to_id
-                $this.OnId(obj);
-            }
             if (obj.event_id !== undefined) {
                 $this.Publish(obj.event_id, {
                     "ok": "done",
                     "from": $this.id
                 })
             }
+            if ($this.OnId !== undefined && obj.to_id === $this.id) {
+                delete obj.to_id
+                $this.OnId(obj);
+            }
+            
+            
             if (obj.topic !== undefined) {
                 // on publish
                 if ($this.TopicHandlers[obj.topic] !== undefined) {
                     let subs = new busSubscription($this, obj.topic);
                     $this.TopicHandlers[obj.topic](obj, subs);
                     return;
-                } else {
-                    console.log("topicHandler not found for topic:", obj.topic);
-                }
+                } 
             }
         };
 
@@ -151,12 +151,12 @@ class Bus {
         data.event_id = eventId;
         let done = false;
 
-        this.Subscribe(eventId, (data, ch) => {
+        let sub = this.Subscribe(eventId, (data, ch) => {
             done = true;
             if (onRecv) {
                 onRecv(data);
-                ch.Unsubscribe()
             }
+            ch.Unsubscribe();
         });
         this.Publish(topic, data);
         let timer = setTimeout(() => {
@@ -165,6 +165,7 @@ class Bus {
                 if (onExpire) {
                     onExpire(eventId, topic);
                 }
+                sub.Unsubscribe();
             }
         }, 500);
     }
@@ -183,12 +184,12 @@ class Bus {
         data.event_id = eventId;
         let done = false;
 
-        this.Subscribe(eventId, (data, ch) => {
+        let sub = this.Subscribe(eventId, (data, ch) => {
             done = true;
             if (onRecv) {
                 onRecv(data);
-                ch.Unsubscribe();
             }
+            ch.Unsubscribe();
         });
         this.PublishToID(id, data);
         let timer = setTimeout(() => {
@@ -197,6 +198,7 @@ class Bus {
                 if (onExpire) {
                     onExpire(eventId, id);
                 }
+                sub.Unsubscribe();
             }
         }, 500);
     }
