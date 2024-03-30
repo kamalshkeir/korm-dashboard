@@ -71,23 +71,23 @@
             let p = document.createElement("p");
             if (data.log) {
                 p.textContent=data.log;
-                if (data.log.startsWith("[SUCCESS]")) {
+                if (data.log.includes("INFO")) {
                     p.style.background = "rgb(33, 169, 33)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.startsWith("[ERROR]")) {
+                } else if (data.log.includes("ERRO")) {
                     p.style.background = "rgb(205, 8, 70)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.startsWith("[INFO]")) {
+                } else if (data.log.includes("DEBU")) {
                     p.style.background = "rgb(32, 32, 174)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.startsWith("[DEBUG]")) {
+                } else if (data.log.includes("FATA")) {
                     p.style.background = "rgb(143, 32, 174)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.startsWith("[WARNING]")) {
+                } else if (data.log.includes("WARN")) {
                     p.style.background = "rgb(184, 195, 29)";
                     p.style.color = "white";
                     container.prepend(p);
