@@ -43,15 +43,15 @@
     </a>
     <div class="container">
         {{range .logs}}
-            {{if startWith . "[success]"}}
-            <p style="background: rgb(33, 169, 33);color: white;">{{.}}</p>
-            {{else if startWith . "[error]"}}
-            <p style="background: rgb(205, 8, 70);color: white;">{{.}}</p>
-            {{else if startWith . "[info]"}}
-            <p style="background: rgb(32, 32, 174);color: white;">{{.}}</p>
-            {{else if startWith . "[debug]"}}
+            {{if contains . "FATA"}}
             <p style="background: rgb(143, 32, 174);color: white;">{{.}}</p>
-            {{else if startWith . "[warning]"}}
+            {{else if contains . "ERRO"}}
+            <p style="background: rgb(205, 8, 70);color: white;">{{.}}</p>
+            {{else if contains . "INFO"}}
+            <p style="background: rgb(33, 169, 33);color: white;">{{.}}</p>
+            {{else if contains . "DEBU"}}
+            <p style="background: rgb(19, 11, 235);color: white;">{{.}}</p>
+            {{else if contains . "WARN"}}
             <p style="background: rgb(184, 195, 29);color: rgb(0, 0, 0);">{{.}}</p>
             {{else}}
             <p>{{.}}</p>
@@ -80,7 +80,7 @@
                     p.style.color = "white";
                     container.prepend(p);
                 } else if (data.log.includes("DEBU")) {
-                    p.style.background = "rgb(32, 32, 174)";
+                    p.style.background = "rgb(19, 11, 235)";
                     p.style.color = "white";
                     container.prepend(p);
                 } else if (data.log.includes("FATA")) {
@@ -89,7 +89,7 @@
                     container.prepend(p);
                 } else if (data.log.includes("WARN")) {
                     p.style.background = "rgb(184, 195, 29)";
-                    p.style.color = "white";
+                    p.style.color = "black";
                     container.prepend(p);
                 } else {
                     container.prepend(p);
