@@ -43,15 +43,15 @@
     </a>
     <div class="container">
         {{range .logs}}
-            {{if contains . "FATA"}}
+            {{if startWith . "fata"}}
             <p style="background: rgb(143, 32, 174);color: white;">{{.}}</p>
-            {{else if contains . "ERRO"}}
+            {{else if startWith . "erro"}}
             <p style="background: rgb(205, 8, 70);color: white;">{{.}}</p>
-            {{else if contains . "INFO"}}
+            {{else if startWith . "info"}}
             <p style="background: rgb(33, 169, 33);color: white;">{{.}}</p>
-            {{else if contains . "DEBU"}}
+            {{else if startWith . "debu"}}
             <p style="background: rgb(19, 11, 235);color: white;">{{.}}</p>
-            {{else if contains . "WARN"}}
+            {{else if startWith . "warn"}}
             <p style="background: rgb(184, 195, 29);color: rgb(0, 0, 0);">{{.}}</p>
             {{else}}
             <p>{{.}}</p>
@@ -71,23 +71,23 @@
             let p = document.createElement("p");
             if (data.log) {
                 p.textContent=data.log;
-                if (data.log.includes("INFO")) {
+                if (data.log.startsWith("INFO")) {
                     p.style.background = "rgb(33, 169, 33)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.includes("ERRO")) {
+                } else if (data.log.startsWith("ERRO")) {
                     p.style.background = "rgb(205, 8, 70)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.includes("DEBU")) {
+                } else if (data.log.startsWith("DEBU")) {
                     p.style.background = "rgb(19, 11, 235)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.includes("FATA")) {
+                } else if (data.log.startsWith("FATA")) {
                     p.style.background = "rgb(143, 32, 174)";
                     p.style.color = "white";
                     container.prepend(p);
-                } else if (data.log.includes("WARN")) {
+                } else if (data.log.startsWith("WARN")) {
                     p.style.background = "rgb(184, 195, 29)";
                     p.style.color = "black";
                     container.prepend(p);
