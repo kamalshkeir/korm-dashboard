@@ -74,7 +74,7 @@ self.addEventListener("fetch", e => {
             .then((res) => {
                 let clone = res.clone()
                 caches.open(DYNAMIC_CACHE_NAME).then((cache) => {
-                    cache.put(e.request.url, clone);
+                    cache.put(e.request.url, clone).catch(err => _=err);
                 })
                 return res;
                 
