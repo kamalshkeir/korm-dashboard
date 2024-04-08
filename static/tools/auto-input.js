@@ -7,6 +7,7 @@ class AutoInput extends HTMLElement {
     }
     :host {
         width:100%;
+        --fs:20px;
     }
     .input-container {
         position: relative;
@@ -14,7 +15,8 @@ class AutoInput extends HTMLElement {
         min-width: 100px;
         min-height: 50px;
         border-radius: 5px;
-        font-family:sans-serif;
+        font-size:var(--fs);
+        font-family: sans-serif;
     }
 
     #myinput {
@@ -22,26 +24,26 @@ class AutoInput extends HTMLElement {
         border: none;
         background-color: transparent;
         position: absolute;
-        width: 100%; /* Adjusted */
-        height: 100%; /* Adjusted */
+        width: 100%; 
+        height: 100%; 
         color: #000000;
-        font-size: 20px;
-        padding: 0 12px;
-        z-index: 1; /* Adjusted */
+        padding: 0 7px;
+        font-size:var(--fs);
+        z-index: 1; 
     }
 
     #suggestion {
-        width: 100%; /* Adjusted */
-        height: 100%; /* Adjusted */
+        width: 100%; 
+        height: 100%; 
         position: absolute;
-        z-index: 0; /* Adjusted */
+        z-index: 0; 
         top: 0;
         left: 0;
         display: flex;
         align-items: center;
-        padding: 0 12px;
-        font-size: 20px;
+        padding: 0 7px;
         color: #868686;
+        font-size:var(--fs);
     }
 
     @media screen and (max-width:600px) {
@@ -71,6 +73,7 @@ class AutoInput extends HTMLElement {
         shadow.appendChild(inputContainer);
 
         // Parse the words attribute as JSON
+        this._words = new Set();
         this.words = JSON.parse(this.getAttribute('words')) || [];
     }
 
@@ -149,11 +152,18 @@ class AutoInput extends HTMLElement {
     }
 
     get words() {
-        return this._words;
+        return Array.from(this._words);
     }
 
     set words(newWords) {
-        this._words = newWords;
+        if (Array.isArray(newWords)) {
+            this._words = new Set(newWords);
+        } else if (typeof newWords === 'string') {
+            const wordsArray = newWords.split(',').map(word => word.trim());
+            this._words = new Set(wordsArray);
+        } else {
+            console.error("Invalid value for words attribute. Expected an array or a string.");
+        }
     }
 }
 
