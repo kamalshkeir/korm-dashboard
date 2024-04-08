@@ -97,8 +97,18 @@ class AutoInput extends HTMLElement {
 
     handleKeyDown(event) {
         if ((event.keyCode == 9 || event.keyCode == 13) && this.suggestion.textContent !== "") {
+            const selectedWord = this.input.value;
             this.input.value = this.suggestion.textContent;
             this.suggestion.textContent = '';
+            this.userSelectedSuggestion = true;
+
+            // Dispatch custom event indicating user selected a suggestion
+            const suggestionSelectedEvent = new CustomEvent('select', {
+                detail: this.input.value
+            });
+            this.dispatchEvent(suggestionSelectedEvent);
+        } else if (event.keyCode == 40) { // Arrow down key
+            this.userSelectedSuggestion = false;
         }
     }
 
