@@ -44,6 +44,7 @@ class AutoInput extends HTMLElement {
         padding: 0 7px;
         color: #868686;
         font-size:var(--fs);
+        white-space:nowrap;
     }
 
     @media screen and (max-width:600px) {
@@ -122,6 +123,11 @@ class AutoInput extends HTMLElement {
         }
     }
 
+    addWord(word) {
+        this._words.add(word);
+        this.handleInput();
+    }
+
     static get observedAttributes() {
         return ['placeholder', 'value'];
     }
@@ -131,7 +137,7 @@ class AutoInput extends HTMLElement {
             this.input.setAttribute('placeholder', newValue);
         } else if (name === 'value') {
             this.input.value = newValue;
-        }
+        } 
     }
 
     get value() {
@@ -155,15 +161,22 @@ class AutoInput extends HTMLElement {
         return Array.from(this._words);
     }
 
+
     set words(newWords) {
         if (Array.isArray(newWords)) {
             this._words = new Set(newWords);
         } else if (typeof newWords === 'string') {
             const wordsArray = newWords.split(',').map(word => word.trim());
             this._words = new Set(wordsArray);
+        } else if (newWords instanceof Set) {
+            this._words = newWords;
         } else {
-            console.error("Invalid value for words attribute. Expected an array or a string.");
+            console.error("Invalid value for words attribute. Expected an array, a string, or a Set.", newWords, typeof (newWords));
+            return;
         }
+
+        // Trigger handleInput to update suggestion based on the new words
+        this.handleInput();
     }
 }
 
