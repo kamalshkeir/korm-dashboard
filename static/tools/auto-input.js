@@ -96,8 +96,7 @@ class AutoInput extends HTMLElement {
     }
 
     handleKeyDown(event) {
-        if ((event.keyCode == 13 || event.keyCode == 9) && this.suggestion.textContent !== "") {
-            event.preventDefault();
+        if ((event.keyCode == 9 || event.keyCode == 13) && this.suggestion.textContent !== "") {
             this.input.value = this.suggestion.textContent;
             this.suggestion.textContent = '';
         }
@@ -137,7 +136,7 @@ class AutoInput extends HTMLElement {
             this.input.setAttribute('placeholder', newValue);
         } else if (name === 'value') {
             this.input.value = newValue;
-        } 
+        }
     }
 
     get value() {
