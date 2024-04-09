@@ -1,14 +1,17 @@
 class AutoInput extends HTMLElement {
     static css = `
+    :host {
+        width:100%;
+        --fs:20px;
+        --ff:sans-serif;
+    }
     *, :after, :before {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: var(--ff);
     }
-    :host {
-        width:100%;
-        --fs:20px;
-    }
+    
     .input-container {
         position: relative;
         background-color: #ffffff;
@@ -16,7 +19,6 @@ class AutoInput extends HTMLElement {
         min-height: 50px;
         border-radius: 5px;
         font-size:var(--fs);
-        font-family: sans-serif;
     }
 
     #myinput {
