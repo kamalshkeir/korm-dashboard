@@ -290,10 +290,9 @@ form.addEventListener("submit", (e) => {
       }
     } else if (input.type == "datetime-local") {
       val = Date.parse(input.value).toString().substring(0, 10);
-      if (isNaN(val)) {
-        val = Date.now().toString().substring(0, 10);
+      if (!isNaN(val)) {
+        data.set(input.getAttribute("name"), val);
       }
-      data.set(input.getAttribute("name"), val);
     } else {
       let val = input.value;
       let name = input.getAttribute("name");
