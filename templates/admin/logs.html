@@ -67,7 +67,7 @@
         secure:secure
     });
     bus.OnOpen = () => {
-        bus.Subscribe("klog:logs",(data,subs) => {
+        bus.Subscribe("lg:logs",(data,subs) => {
             let p = document.createElement("p");
             if (data.log) {
                 p.textContent=data.log;

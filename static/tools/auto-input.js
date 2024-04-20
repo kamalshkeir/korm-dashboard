@@ -1,105 +1,132 @@
-class AutoInput extends HTMLElement {
+class AutoInput {
     static css = `
-    :host {
-        width:100%;
-        --fs:20px;
-        --ff:sans-serif;
-    }
-    *, :after, :before {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: var(--ff);
-    }
-    
-    .input-container {
-        position: relative;
-        background-color: #ffffff;
-        min-width: 100px;
-        min-height: 50px;
-        border-radius: 5px;
-        font-size:var(--fs);
-    }
+        <style>
+            .input-container {
+                width:100%;
+                --fs:20px;
+                --ff:sans-serif;
+                position: relative;
+                background-color: var(--bg,#ffffff);
+                min-width: 100px;
+                min-height: 50px;
+                border-radius: 5px;
+                font-size:var(--fs);
+            }
 
-    #myinput {
-        outline: none;
-        border: none;
-        background-color: transparent;
-        position: absolute;
-        width: 100%; 
-        height: 100%; 
-        color: #000000;
-        padding: 0 7px;
-        font-size:var(--fs);
-        z-index: 1; 
-    }
+            .myinput {
+                outline: none;
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                width: 100%; 
+                height: 100%; 
+                color: #000000;
+                padding: 0 7px;
+                font-size:var(--fs) !important;
+                z-index: 1; 
+                line-height:1.2em;
+            }
 
-    #suggestion {
-        width: 100%; 
-        height: 100%; 
-        position: absolute;
-        z-index: 0; 
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        padding: 0 7px;
-        color: #868686;
-        font-size:var(--fs);
-        white-space:nowrap;
-    }
+            .suggestion {
+                display: flex; 
+                align-items: center; 
+                width: 100%; 
+                height: 100%; 
+                position: absolute;
+                z-index: 0; 
+                top: 0;
+                left: 0;
+                padding: 0 7px;
+                color: #868686;
+                font-size:var(--fs) !important;
+                white-space:nowrap;
+                line-height:1.2em;
+            }
 
-    @media screen and (max-width:600px) {
-        .input-container {
-            width: 80vw;
-        }
-    }
+            @media screen and (max-width:600px) {
+                .input-container {
+                    width: 80vw;
+                }
+            }
+        </style>
     `;
-    constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: 'open' });
-        shadow.innerHTML = `<style>${AutoInput.css}</style>`;
+
+    constructor(selector) {
+        document.head.insertAdjacentHTML('beforeend', AutoInput.css);
+
+        this.element = document.querySelector(selector);
+        if (!this.element) {
+            console.error(`Element with selector ${selector} not found.`);
+            return;
+        }
+
         const inputContainer = document.createElement('div');
+        inputContainer.title = "double tap space to autocomplete";
         inputContainer.classList.add('input-container');
 
         this.input = document.createElement('input');
+
         this.input.setAttribute('type', 'text');
-        this.input.setAttribute('placeholder', this.getAttribute('placeholder') || '');
-        this.input.setAttribute('id', 'myinput'); // Added id
-        this.input.value = this.getAttribute('value') || '';
+        this.input.setAttribute('placeholder', this.element.getAttribute('placeholder') || '');
+        this.input.classList.add("myinput"); // Added class
+        this.input.value = this.element.getAttribute('value') || ''; // Set initial value
+        this.input.setAttribute('name', this.element.getAttribute('name') || ''); // Added name attribute
+        if (this.element.hasAttribute('disabled')) {
+            this.input.setAttribute('disabled', 'disabled'); // Added disabled attribute if present
+        }
         inputContainer.appendChild(this.input);
 
         this.suggestion = document.createElement('span');
-        this.suggestion.setAttribute('id', 'suggestion');
+        this.suggestion.classList.add("suggestion");
         inputContainer.appendChild(this.suggestion);
 
-        shadow.appendChild(inputContainer);
+        this.element.appendChild(inputContainer);
 
         // Parse the words attribute as JSON
         this._words = new Set();
-        this.words = JSON.parse(this.getAttribute('words')) || [];
+        const wordsAttribute = this.element.getAttribute('words');
+        if (wordsAttribute) {
+            this.words = JSON.parse(wordsAttribute) || [];
+        }
+
+        this.element.addEventListener('input', (e) => this.handleInput(e));
+        this.element.addEventListener('keydown', (e) => this.handleKeyDown(e));
     }
 
-    connectedCallback() {
-        this.input.addEventListener('input', () => this.handleInput());
-        this.input.addEventListener('keydown', (e) => this.handleKeyDown(e));
-    }
 
-    handleInput() {
+    handleInput(e) {
+        if (e && e.inputType && e.inputType === "insertText" && e.data === ' ') {
+            if (this.xxx) {
+                this.input.value = this.xxx;
+                this.xxx = null;
+                return;
+            }
+            if (this.suggestion.textContent) {
+                this.xxx = this.suggestion.textContent
+            }
+        }
         const inputValue = this.input.value.toLowerCase();
+        if (inputValue.trim() === inputValue) {
+            this.input.value = inputValue;
+        }
+        if (inputValue.includes("*")) {
+            return
+        }
+
         const regex = new RegExp("^" + inputValue, "i");
         for (let word of this.words) {
             if (regex.test(word) && inputValue !== "") {
-                this.suggestion.textContent = this.caseCheck(word);
+                this.suggestion.textContent = word;
                 return;
             }
         }
+
         this.suggestion.textContent = '';
     }
 
-    handleKeyDown(event) {
-        if ((event.keyCode == 9 || event.keyCode == 13) && this.suggestion.textContent !== "") {
-            const selectedWord = this.input.value;
+    handleKeyDown(e) {
+        var key = e.key;
+        if ((key === 'Tab' || e.key === 'Enter') && this.suggestion.textContent !== "") {
             this.input.value = this.suggestion.textContent;
             this.suggestion.textContent = '';
             this.userSelectedSuggestion = true;
@@ -108,29 +135,7 @@ class AutoInput extends HTMLElement {
             const suggestionSelectedEvent = new CustomEvent('select', {
                 detail: this.input.value
             });
-            this.dispatchEvent(suggestionSelectedEvent);
-        } else if (event.keyCode == 40) { // Arrow down key
-            this.userSelectedSuggestion = false;
-        }
-    }
-
-    caseCheck(word) {
-        let inV = this.input.value;
-        let upperCaseFlag = inV.toUpperCase() === inV;
-        let lowerCaseFlag = inV.toLowerCase() === inV;
-
-        if (upperCaseFlag) {
-            return word.toUpperCase();
-        } else if (lowerCaseFlag) {
-            return word.toLowerCase();
-        } else {
-            return word.split("").map((letter, index) => {
-                if (inV[index] === letter.toLowerCase()) {
-                    return letter;
-                } else {
-                    return inV[index] === inV[index].toUpperCase() ? letter.toUpperCase() : letter.toLowerCase();
-                }
-            }).join("");
+            this.element.dispatchEvent(suggestionSelectedEvent);
         }
     }
 
@@ -161,17 +166,16 @@ class AutoInput extends HTMLElement {
     }
 
     get placeholder() {
-        return this.getAttribute('placeholder');
+        return this.element.getAttribute('placeholder');
     }
 
     set placeholder(newValue) {
-        this.setAttribute('placeholder', newValue);
+        this.element.setAttribute('placeholder', newValue);
     }
 
     get words() {
         return Array.from(this._words);
     }
-
 
     set words(newWords) {
         if (Array.isArray(newWords)) {
@@ -191,4 +195,5 @@ class AutoInput extends HTMLElement {
     }
 }
 
-customElements.define('auto-input', AutoInput);
+// Usage example:
+// const autoInput = new AutoInput('auto-input');
