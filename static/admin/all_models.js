@@ -14,6 +14,9 @@ let page = 1;
 let trs = document.querySelectorAll("tbody .trss");
 trs.forEach((tr) => {
   tr.addEventListener("click", (e) => {
+    if (e.target == tr || e.target.classList.contains("deleteBtn")) {
+      return
+    }
     e.currentTarget.querySelector("a").click();
   })
 })
