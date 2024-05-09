@@ -8,7 +8,7 @@
   <meta name="description" content="Website Admin Page">
   {{template "admin_head" $static}}
   <link rel="stylesheet" href="{{$static}}/admin/jodit_editor.min.css">
-  <title>Admin - Single {{.model_name}}</title>
+  <title>KORM - {{.model_name}}</title>
 </head>
 <body>
 {{ template "admin_nav" . }}
@@ -16,14 +16,18 @@
 {{$admin_path := .admin_path}}
 {{$columns := .columns}}
 {{$dbcolumns := .dbcolumns}}
+{{$columnsOrdered := .columnsOrdered}}
 {{$fkeys := .fkeys}}
+{{$model := .model}}
 
 {{$pk := .pk}}
 
 <div class="wrapper">
   <a href="{{$admin_path}}/table/{{.model_name}}"><h1>{{.model_name}}</h1></a>
   <form id="myform" data-model="{{.model_name}}" data-id="{{.id}}" autocomplete="off">
-    {{range $key,$value := .model}}
+    
+    {{range $key := $columnsOrdered}}
+    {{$value := index $model $key}}
     <div class="form-group">
       <label for="{{$key}}">{{$key}}:</label><div style="margin: 10px 0 10px 0;"></div>
       

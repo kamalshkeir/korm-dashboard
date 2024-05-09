@@ -9,7 +9,7 @@
   {{template "admin_head" $static}}
   <link rel="stylesheet" href="{{$static}}/admin/jodit_editor.min.css">
   <link rel="stylesheet" href="{{$static}}/admin/table.css">
-  <title>Admin - {{.model_name}}</title>
+  <title>KORM - {{.model_name}}</title>
 </head>
 
 <body>
@@ -159,7 +159,7 @@
           {{$i := 0}}
           <tbody class="tbody">
             {{range $row := .rows}}
-            <tr>
+            <tr class="trss">
               {{range $key := $columnsOrdered}}
               {{$value := index $row $key}}
               {{if eq $key $pk }}

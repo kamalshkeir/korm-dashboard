@@ -30,6 +30,9 @@ a {
 
 td p {
     color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
 }
 
 *::-webkit-scrollbar {
@@ -294,9 +297,9 @@ form .submit-btn {
     color: white;
     font-size: 1.1em;
     font-weight: 400;
-    padding: 10px 20px;
+    padding: 10px 30px;
     outline: none;
-    border-radius: 15px;
+    border-radius: 12px;
     border: 2px solid black;
     background: #242526;
 }
@@ -343,10 +346,12 @@ form .submit-btn:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 .card-container .card {
     height: 150px;
+    min-width: 200px;
     margin: 20px;
     border-radius: 20px 20px 20px 20px;
     background: none;
@@ -354,6 +359,7 @@ form .submit-btn:hover {
     font-size: 1.5rem;
     box-shadow: 0 0 10px #18191A;
     border: 1px solid black;
+    overflow: hidden;
 }
 
 
@@ -367,9 +373,10 @@ form .submit-btn:hover {
 }
 
 .card-body .card-title {
-    font-size: clamp(20px, 2vw, 24px);
-    padding: 10% 0 20% 10%;
-    text-transform: capitalize;
+    font-size: clamp(18px, 8vw, 26px);
+    padding: 43px 100px 70px 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .btn {
@@ -400,31 +407,32 @@ form .submit-btn:hover {
     justify-content: center;
     align-items: center;
     background: #18191a;
-    border: 1px solid black;
-    font-size: clamp(15px, 2vw, 25px);
+    border: 0px;
+    margin-left: 1px;
+    font-size: clamp(15px, 1.3rem, 25px);
 }
 
 .btn-right {
     position: absolute;
+    border: 0px;
     bottom: -1px;
     right: -1px;
     width: 50.4%;
-    height: 50px;
-    border: 1px solid black;
+    height: 49px;
     border-radius: 0 0 20px 0;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #18191a;
-    font-size: clamp(20px, 2vw, 30px);
     cursor: pointer;
-    font-size: clamp(15px, 2vw, 25px);
+    margin: 1px;
+    font-size: clamp(15px, 1.3rem, 25px);
 }
 
 .btn-left:hover,
 .btn-right:hover {
-    border: 2px solid white;
+    background: #0b0b0b;
 }
 
 /* SINGLE MODEL ADMIN */

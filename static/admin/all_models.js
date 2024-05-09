@@ -11,6 +11,13 @@ let html = document.querySelector("html");
 let searchForm = document.querySelector("form.search-input");
 let page = 1;
 
+let trs = document.querySelectorAll("tbody .trss");
+trs.forEach((tr) => {
+  tr.addEventListener("click", (e) => {
+    e.currentTarget.querySelector("a").click();
+  })
+})
+
 function isFloat(n) {
   return Number(n) === n && n % 1 !== 0;
 }
