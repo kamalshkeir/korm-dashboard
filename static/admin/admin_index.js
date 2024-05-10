@@ -1,9 +1,16 @@
 let btns = document.querySelectorAll(".btn-right");
+let notyf = new Notyf({
+    duration: 3000,
+});
+
 let callbackPostIndex = (data) => {
     if (data.success) {
-        Notify(data.success,"success");
+        notyf.success({
+            message: data.success,
+            dismissible: true,
+        });
     } else if (data.error) {
-        Notify(data.error,"error");
+        notyf.error(data.error);
     }
 };
 

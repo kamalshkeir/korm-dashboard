@@ -10,6 +10,9 @@ let form = document.getElementById("myform");
 let html = document.querySelector("html");
 let searchForm = document.querySelector("form.search-input");
 let page = 1;
+let notyf = new Notyf({
+  duration: 3000,
+});
 
 let trs = document.querySelectorAll("tbody .trss");
 trs.forEach((tr) => {
@@ -220,7 +223,7 @@ let handlePostSearch = (data) => {
     }
   } else {
     if (data.error) {
-      Notify(data.error, "error");
+      notyf.error(data.error);
     }
   }
 }
@@ -284,7 +287,7 @@ let handlepostCreate = (data) => {
     modal.classList.remove('active');
     window.location.reload();
   } else if (data.error) {
-    Notify(data.error, "error");
+    notyf.error(data.error);
   }
 }
 
@@ -359,9 +362,9 @@ importBtns.forEach(btn => {
 let callbackImport = (data) => {
   if (data) {
     if (data.success) {
-      Notify(data.success, "success");
+      notyf.success(data.success);
     } else if (data.error) {
-      Notify(data.error, "error");
+      notyf.error(data.error);
     }
   }
 }
@@ -380,10 +383,10 @@ importInput.addEventListener("change", () => {
 /* DELETE ROW */
 let handlepostDelete = (data) => {
   if (data.success) {
-    Notify(data.success, "success");
+    notyf.success(data.success);
     document.querySelector(`.deleteBtn[data-id='${data.id}']`).closest('tr').remove();
   } else if (data.error) {
-    Notify(data.error, "error");
+    notyf.error(data.error);
   }
 }
 
@@ -567,9 +570,6 @@ const observer = new IntersectionObserver(entries => {
     }
     let head = {
       "Content-type": "application/json; charset=UTF-8"
-    }
-    if (csrftoken) {
-      head['X-CSRF-Token'] = csrftoken;
     }
 
     fetch(`${admin_path}/table/${modelName}/search`, {

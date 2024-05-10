@@ -1,9 +1,12 @@
 let form = document.getElementById("admin-login");
+let notyf = new Notyf({
+    duration: 4000,
+})
 let callbackPOST = (data) => {
     if (data.success) {
         window.location.href = admin_path;
     } else if (data.error) {
-        Notify(data.error, "error");
+        notyf.error(data.error);
     }
 }
 form.addEventListener("submit",(e) => {

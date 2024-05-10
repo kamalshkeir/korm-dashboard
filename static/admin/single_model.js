@@ -2,6 +2,9 @@ let form = document.getElementById("myform");
 let model_name = form.dataset.model;
 let model_id = form.dataset.id;
 let inputs = document.querySelectorAll(".input");
+let notyf = new Notyf({
+    duration: 4000,
+})
 
 
 // initialise editor if exist on page
@@ -23,9 +26,9 @@ var data = new FormData();
 // update form handler
 let callbackPost = (d) => {
     if(d.success) {
-        Notify(d.success, "success");
+        notyf.success(d.success);
     }else if (d.error) {
-        Notify(d.error, "error");
+        notyf.error(d.error);
     }
     data = new FormData();
 }
