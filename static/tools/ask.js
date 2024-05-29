@@ -21,7 +21,7 @@ class ask extends HTMLElement {
         .modal {
             width: auto;
             max-height: 400px;
-            position: fixed;
+            position: sticky;
             max-width: 600px;
             left: 50%;
             top: 50%;
