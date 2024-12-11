@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  {{$static := .static_url}}
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Website Admin Page">
-  {{template "admin_head" $static}}
-  <link rel="stylesheet" href="{{$static}}/admin/jodit_editor.min.css">
+  {{template "admin_head" $.static_url}}
+  <link rel="stylesheet" href="{{$.static_url}}/admin/jodit_editor.min.css">
   <style> 
   .model {
         width: fit-content;
@@ -49,11 +48,7 @@
   <title>KORM - Api</title>
 </head>
 <body>
-{{$req := .Request}}
-{{$tbMem := .tbMem}}
-{{$admin_path := .admin_path}}
-{{$tbMethods := .tbMethods}}
-{{$EndWithSlash := not (call .EndWithSlash $req.URL.Path) }}
+{{$EndWithSlash := not (call .EndWithSlash $.Request.URL.Path) }}
 {{$slash := ""}}
 {{if $EndWithSlash}}{{$slash = "/"}}{{end}}
 
@@ -70,10 +65,10 @@
 
         {{if .IsAuthenticated}}
             <li>
-              <a {{if contains .Request.URL.Path $admin_path }}class="active"{{end}} href="{{$admin_path}}">Admin</a>
+              <a {{if contains .Request.URL.Path $.admin_path }}class="active"{{end}} href="{{$.admin_path}}">Admin</a>
             </li>
             <li>
-            <a href="{{$admin_path}}/logout">Logout</a>
+            <a href="{{$.admin_path}}/logout">Logout</a>
             </li>
             
             {{if .User.Email}}
@@ -92,44 +87,44 @@
     {{$tbName := .}}
     <div class="model-container">
         <h1 class="model"><strong>{{$tbName}} </strong> </h1>
-        {{if contains (index $tbMethods $tbName) "get"}}
+        {{if contains (index $.tbMethods $tbName) "get"}}
         <div class="url">
             <span class="tag" style="--color:white;--bg:green;">get</span>
             <span class="title-name" style="color:rgb(2, 213, 2);">get all : </span> 
-            <a class="table-link" href="{{$req.URL.Path}}{{$slash}}{{$tbName}}">
-              {{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}
+            <a class="table-link" href="{{$.Request.URL.Path}}{{$slash}}{{$tbName}}">
+              {{if $.Request.TLS}}https{{else}}http{{end}}://{{$.Request.Host}}{{$.Request.URL.Path}}{{$slash}}{{$tbName}}
             </a>   
         </div>  
         <div class="url">
             <span class="tag" style="--color:white;--bg:green;">get</span>
             <span class="title-name" style="color:rgb(2, 213, 2);">get one : </span> 
-            <a class="table-link" href="{{$req.URL.Path}}{{$slash}}{{$tbName}}/1">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $tbMem $tbName).Pk}}</a>         
+            <a class="table-link" href="{{$.Request.URL.Path}}{{$slash}}{{$tbName}}/1">{{if $.Request.TLS}}https{{else}}http{{end}}://{{$.Request.Host}}{{$.Request.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $.tbMem $tbName).Pk}}</a>         
         </div>
         {{end}}  
-        {{if contains (index $tbMethods $tbName) "post"}}
+        {{if contains (index $.tbMethods $tbName) "post"}}
         <div class="url">
             <span class="tag" style="--color:white;--bg:rgb(39, 44, 141);">post</span>
             <span class="title-name" style="color:rgb(61, 69, 214);">create one : </span> 
-            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}</a>          
+            <a class="table-link">{{if $.Request.TLS}}https{{else}}http{{end}}://{{$.Request.Host}}{{$.Request.URL.Path}}{{$slash}}{{$tbName}}</a>          
         </div>
         {{end}}
-        {{if or (contains (index $tbMethods $tbName) "put") (contains (index $tbMethods $tbName) "patch")}}
+        {{if or (contains (index $.tbMethods $tbName) "put") (contains (index $.tbMethods $tbName) "patch")}}
         <div class="url">
-            {{if contains (index $tbMethods $tbName) "put"}}
+            {{if contains (index $.tbMethods $tbName) "put"}}
             <span class="tag" style="--color:white;--bg:rgb(117, 55, 103);">put</span>
             {{end}}
-            {{if contains (index $tbMethods $tbName) "patch"}}
+            {{if contains (index $.tbMethods $tbName) "patch"}}
             <span class="tag" style="--color:white;--bg:rgb(117, 55, 103);">patch</span>
             {{end}}
             <span class="title-name" style="color:rgb(198, 83, 171);">update one : </span> 
-            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $tbMem $tbName).Pk}}</a>         
+            <a class="table-link">{{if $.Request.TLS}}https{{else}}http{{end}}://{{$.Request.Host}}{{$.Request.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $.tbMem $tbName).Pk}}</a>         
         </div>
         {{end}}
-        {{if contains (index $tbMethods $tbName) "delete"}}
+        {{if contains (index $.tbMethods $tbName) "delete"}}
         <div class="url">
             <span class="tag" style="--color:white;--bg:rgb(152, 33, 37);">delete</span>
             <span class="title-name" style="color:rgb(152, 33, 37);">delete one : </span> 
-            <a class="table-link">{{if $req.TLS}}https{{else}}http{{end}}://{{$req.Host}}{{$req.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $tbMem $tbName).Pk}}</a>          
+            <a class="table-link">{{if $.Request.TLS}}https{{else}}http{{end}}://{{$.Request.Host}}{{$.Request.URL.Path}}{{$slash}}{{$tbName}}/:{{(index $.tbMem $tbName).Pk}}</a>          
         </div>
         {{end}}
     </div>
@@ -137,7 +132,7 @@
 </div>
 
 
-<script src="{{$static}}/admin/jodit_editor.min.js"></script>
+<script src="{{$.static_url}}/admin/jodit_editor.min.js"></script>
 {{template "pwa"}}
 </body>
 </html>

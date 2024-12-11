@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-    {{$static := .static_url}}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{template "admin_head" $static}}
+    {{template "admin_head" $.static_url}}
     <style>
         .container {
             width: 90%;
@@ -37,8 +36,7 @@
 </head>
 <body>
     {{ template "admin_nav" . }}
-    {{$admin_path := .admin_path}}
-    <a href="{{$admin_path}}">
+    <a href="{{$.admin_path}}">
         <h1 style="text-align: center;font-size: 5vw;margin-top: 80px;">Logs</h1>
     </a>
     <div class="container">
@@ -59,7 +57,7 @@
         {{end}}
     </div>
 
-<script src="{{$static}}/tools/bus.js"></script>
+<script src="{{$.static_url}}/tools/bus.js"></script>
 <script>
     let secure = "{{.secure}}" == "true";
     let container = document.querySelector(".container");   

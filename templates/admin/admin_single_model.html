@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-{{$static := .static_url}}
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Website Admin Page">
-  {{template "admin_head" $static}}
-  <link rel="stylesheet" href="{{$static}}/admin/jodit_editor.min.css">
-  <title>KORM - {{.model_name}}</title>
+  {{template "admin_head" $.static_url}}
+  <link rel="stylesheet" href="{{$.static_url}}/admin/jodit_editor.min.css">
+  <style>
+    datalist {
+      width: 100%;
+      background: red;
+    }
+  </style>
+  <title>KORM - {{$.model_name}}</title>
 </head>
+
 <body>
-{{ template "admin_nav" . }}
-{{$data := .}}
-{{$admin_path := .admin_path}}
-{{$columns := .columns}}
-{{$dbcolumns := .dbcolumns}}
-{{$columnsOrdered := .columnsOrdered}}
-{{$fkeys := .fkeys}}
-{{$model := .model}}
+  {{ template "admin_nav" . }}
 
-{{$pk := .pk}}
+  <div class="wrapper">
+    <a href="{{$.admin_path}}/table/{{.model_name}}">
+      <h1>{{.model_name}}</h1>
+    </a>
+    <form id="myform" data-model="{{.model_name}}" data-id="{{.id}}" autocomplete="off">
 
-<div class="wrapper">
-  <a href="{{$admin_path}}/table/{{.model_name}}"><h1>{{.model_name}}</h1></a>
-  <form id="myform" data-model="{{.model_name}}" data-id="{{.id}}" autocomplete="off">
-    
-    {{range $key := $columnsOrdered}}
-    {{$value := index $model $key}}
-    <div class="form-group">
-      <label for="{{$key}}">{{$key}}:</label><div style="margin: 10px 0 10px 0;"></div>
-      
-      {{if or (eq $key $pk) (and (eq $key "password") (eq $data.model_name "users"))}}
-      <input type="text" id="{{$key}}" name="{{$key}}" class='form-control input' value="{{$value}}" disabled>
-      {{else if index $fkeys $key }}
-      <input type="text" class="form-control input" name="{{$key}}" id="{{$key}}" list="{{$key}}-options" value="{{$value}}">
-      <datalist id="{{$key}}-options">
-       {{range index $fkeys $key}}
-          <option value="{{.}}">{{.}}</option>
-       {{end}}
-      </datalist>
-      {{else if contains (index $columns $key) "time" "Time"}}
-      <input name="{{$key}}" id="{{$key}}" value="{{jsTime $value}}" type="datetime-local" class='form-control input'>
-      {{else if contains $key "image" "photo"}}
-      <input name="{{$key}}" type="file" class='form-control input'>
-      <img src="{{$value}}" alt="image" width="100px" style="border-radius: 20px;">
-      {{else if eq (index $columns $key) "bool"}}
-      <div class="form-check form-switch">
-        <input style="height: 30px;" type="checkbox" name="{{$key}}" id="{{$key}}" class="form-check-input input" {{if $value}}checked{{end}}>
-      </div>
-      {{else if and (contains (index $dbcolumns $key) "text") }}
-      <textarea class="editor" data-key="{{$key}}" data-val="{{$value}}"></textarea>
-      {{else}}
+      {{range $key := $.columnsOrdered}}
+      {{$value := index $.model $key}}
+      <div class="form-group">
+        <label for="{{$key}}">{{$key}}:</label>
+        <div style="margin: 10px 0 10px 0;"></div>
+
+        {{if or (eq $key $.pk) (eq $key "id") (and (eq $key "password") (eq $.model_name "users"))}}
+        <input type="text" id="{{$key}}" name="{{$key}}" class='form-control input' value="{{$value}}" disabled>
+        {{else if index $.fkeys $key }}
+        <input type="text" class="form-control input" name="{{$key}}" id="{{$key}}" list="{{$key}}-options"
+          value="{{$value}}">
+        <datalist id="{{$key}}-options">
+          {{range $i,$v := index $.fkeys $key}}
+          <option value="{{$v}}">{{json (index (index $.fkeysModels $key) $i)}}</option>
+          {{end}}
+        </datalist>
+        {{else if contains (index $.columns $key) "time" "Time"}}
+        <input name="{{$key}}" id="{{$key}}" value="{{jsTime $value}}" type="datetime-local" class='form-control input'>
+        {{else if contains $key "image" "photo"}}
+        <input name="{{$key}}" type="file" class='form-control input'>
+        <img src="{{$value}}" alt="image" width="100px" style="border-radius: 20px;">
+        {{else if eq (index $.columns $key) "bool"}}
+        <div class="form-check form-switch">
+          <input style="height: 30px;" type="checkbox" name="{{$key}}" id="{{$key}}" class="form-check-input input" {{if
+            $value}}checked{{end}}>
+        </div>
+        {{else if and (contains (index $.dbcolumns $key) "text") }}
+        <textarea class="editor" data-key="{{$key}}" data-val="{{$value}}"></textarea>
+        {{else}}
         <input type="text" id="{{$key}}" name="{{$key}}" class='form-control input' value="{{$value}}">
+        {{end}}
+      </div>
+      <div style="margin: 10px 0 10px 0;"></div>
       {{end}}
-    </div>
-    <div style="margin: 10px 0 10px 0;"></div>
-    {{end}}
-    
-    <button class="btn" style="border-radius: 20px;" type="submit">Update</button>
-    <div style="margin: 20px 0 20px 0;"></div>
-  </form>
 
-</div>
-<div style="margin: 10px 0 10px 0;"></div>
+      <button class="btn" style="border-radius: 20px;" type="submit">Update</button>
+      <div style="margin: 20px 0 20px 0;"></div>
+    </form>
+
+  </div>
+  <div style="margin: 10px 0 10px 0;"></div>
 
 
-<script>
-  var admin_path = "{{$admin_path}}";
-</script>
-<script src="{{$static}}/admin/jodit_editor.min.js"></script>
-<script src="{{$static}}/admin/single_model.js"></script>
-{{template "pwa"}}
+  <script>
+    var admin_path = "{{$.admin_path}}";
+  </script>
+  <script src="{{$.static_url}}/admin/jodit_editor.min.js"></script>
+  <script src="{{$.static_url}}/admin/single_model.js"></script>
+  {{template "pwa"}}
 
 
 </body>
+
 </html>
