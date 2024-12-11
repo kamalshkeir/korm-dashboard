@@ -410,7 +410,6 @@ deletebtns.forEach((btn) => {
   })
 })
 
-
 /* Infinite Scroll */
 let lastRow = document.querySelector(".box-inf-scroll");
 let i = 10;
@@ -509,7 +508,7 @@ let handlepostScroll = (data) => {
                         ${span.textContent}
                     </p>
                   `;
-                  } else if ((row[key] == '0' || row[key] == '1') || key.includes("is")) {
+                  } else if ((row[key] == '0' || row[key] == '1') || key.startsWith("is_")) {  
                     let checked = "";
                     if (row[key] == '1') {
                       checked = "checked"
@@ -529,8 +528,29 @@ let handlepostScroll = (data) => {
                   `;
                   break;
               }
-
           }
+          Object.keys(data.fkeys).forEach(fkey => {
+            if (fkey == key) {
+              data.fkeys[fkey].forEach((fk,index) => {
+                if (fk == row[key]) {
+                  // prettify json
+                  let json = JSON.stringify(data.fkeysModels[fkey][index], null, 2);
+                  td.style.color = "yellow";
+                  td.innerHTML = `
+                    <span data-tippy-content='<pre><code>${json}</code></pre>'>${row[key]}</span>
+                  `; 
+                  let mm = td.querySelector("[data-tippy-content]")
+                  tippy(mm, {
+                    arrow: true,
+                    allowHTML: true,
+                    placement: 'right-start',
+                    interactive: true
+                  });
+                  return;
+                }
+              })
+            }
+          })
           tr.insertAdjacentElement("beforeend", td);
         })
 
